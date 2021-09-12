@@ -1,5 +1,4 @@
 package Bot;
-
 public class Category {
     private String name;
     private long amount;
@@ -32,6 +31,4 @@ public class Category {
     public void setName(String name){
         this.name = name;
     }
-
-
 }
