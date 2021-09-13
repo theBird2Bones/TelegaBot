@@ -1,15 +1,14 @@
 package Bot;
 
-import java.util.Deque;
-import java.util.LinkedList;
+import java.util.ArrayList;
 
 public class Account {
     private String name;
-    private Deque<CategoryManager> categoryManagers;
+    private ArrayList<CategoryManager> categoryManagers;
 
     public Account(String name){
         this.name = name;
-        categoryManagers = new LinkedList<>();
+        categoryManagers = new ArrayList<>();
     }
 
     public void setName(String name){
@@ -17,16 +16,24 @@ public class Account {
     }
 
     public void addCategoryManager(CategoryManager categoryManager){
-        categoryManagers.addLast(categoryManager);
+        categoryManagers.add(categoryManager);
+    }
+
+    public ArrayList<CategoryManager> getCategoryManagers(){
+        return categoryManagers;
     }
 
     public long getTotal(){
         var iter = categoryManagers.iterator();
         var total = 0l;
         while(iter.hasNext()){
-            total += iter.next().getCategoryTotal();
+            total += iter.next().getTotal();
         }
         return total;
     }
 
+    @Override
+    public String toString() {
+        return name;
+    }
 }
