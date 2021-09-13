@@ -2,14 +2,16 @@ package Bot;
 public class Category {
     private String name;
     private long amount;
+    private CategoryManager masterCategoryManager;
 
     public Category(String name){
         this.name = name;
     }
 
-    public Category(String name, long amount ){
+    public Category(String name, long amount,CategoryManager masterCategoryManager ){
         this.name = name;
         this.amount = amount;
+        this.masterCategoryManager = masterCategoryManager;
     }
 
     public void subtract(long value){
@@ -30,5 +32,10 @@ public class Category {
 
     public void setName(String name){
         this.name = name;
+    }
+
+    @Override
+    public String toString() {
+        return name;
     }
 }
