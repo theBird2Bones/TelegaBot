@@ -15,8 +15,9 @@ public class Account {
         this.name = name;
     }
 
-    public void addCategoryManager(CategoryManager categoryManager){
-        categoryManagers.add(categoryManager);
+    public void addCategoryManager(String name){
+        var newCategoryManager = new CategoryManager(name,this);
+        addCategoryManager(newCategoryManager);
     }
 
     public ArrayList<CategoryManager> getCategoryManagers(){
@@ -35,5 +36,9 @@ public class Account {
     @Override
     public String toString() {
         return name;
+    }
+
+    private void addCategoryManager(CategoryManager categoryManager){
+        categoryManagers.add(categoryManager);
     }
 }
