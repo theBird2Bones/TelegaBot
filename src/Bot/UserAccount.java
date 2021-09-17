@@ -22,7 +22,6 @@ public class UserAccount {
     public void removeCategory(Category cat){
         categories.remove(cat);
     }
-    public void renameCategory(int categoryIndex, String newName){categories.get(categoryIndex).name = newName;}
 
     public long getTotal(){
         var iter = categories.iterator();
