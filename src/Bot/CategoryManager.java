@@ -20,7 +20,7 @@ public class CategoryManager {
     }
 
     public void addCategory(String name){
-        var newCategory = new Category(name,0,this);
+        var newCategory = new Category(name,this);
         addCategory(newCategory);
     }
 

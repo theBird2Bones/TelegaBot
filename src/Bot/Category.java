@@ -4,13 +4,8 @@ public class Category {
     private long amount;
     private UserAccount masterUserAccount;
 
-    public Category(String name, int amount, CategoryManager categoryManager){
+    public Category(String name, UserAccount masterUserAccount ){
         this.name = name;
-    }
-
-    public Category(String name, long amount,UserAccount masterUserAccount ){
-        this.name = name;
-        this.amount = amount;
         this.masterUserAccount = masterUserAccount;
     }
 

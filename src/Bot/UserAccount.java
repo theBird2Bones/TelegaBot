@@ -16,7 +16,7 @@ public class UserAccount {
     }
 
     public void addCategory(String name){
-        var newCategory = new Category(name,0,this);
+        var newCategory = new Category(name,this);
         addCategory(newCategory);
     }
     public void removeCategory(Category cat){
