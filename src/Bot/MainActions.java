@@ -7,9 +7,8 @@ public interface MainActions {
     String getCategoryName();
 
     long getTotal();
-    long getTotalProDays();
     //стоит, возможно еще добавить вывод с покупками (*покупка нейм* - *затрата*)
 
-    void goDown();
-    void goUp();
+    void goUpTheTree();
+    void goDownTheTree();
 }
