@@ -2,16 +2,11 @@ package Bot;
 public class Category {
     private String name;
     private long amount;
-    private CategoryManager masterCategoryManager;
+    private UserAccount masterUserAccount;
 
-    public Category(String name){
+    public Category(String name, UserAccount masterUserAccount ){
         this.name = name;
-    }
-
-    public Category(String name, long amount,CategoryManager masterCategoryManager ){
-        this.name = name;
-        this.amount = amount;
-        this.masterCategoryManager = masterCategoryManager;
+        this.masterUserAccount = masterUserAccount;
     }
 
     public void subtract(long value){

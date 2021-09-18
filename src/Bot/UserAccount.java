@@ -1,18 +1,14 @@
 package Bot;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
 
-public class CategoryManager {
+public class UserAccount {
     private String name;
     private ArrayList<Category> categories;
-    private Account masterAccount;
 
-    public CategoryManager(String name, Account masterAccount){
+    public UserAccount(String name){
         this.name = name;
         categories = new ArrayList<>();
-        this.masterAccount = masterAccount;
     }
 
     public void setName(String name) {
@@ -23,7 +19,6 @@ public class CategoryManager {
         var newCategory = new Category(name,this);
         addCategory(newCategory);
     }
-
     public void removeCategory(Category cat){
         categories.remove(cat);
     }
@@ -41,7 +36,6 @@ public class CategoryManager {
     public String toString() {
         return name;
     }
-
     private void addCategory(Category cat){
         categories.add(cat);
     }
