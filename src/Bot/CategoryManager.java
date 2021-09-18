@@ -1,8 +1,6 @@
 package Bot;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
+import java.util.*;
 
 public class CategoryManager {
     private String name;
@@ -19,6 +17,14 @@ public class CategoryManager {
         this.name = name;
     }
 
+    public ArrayList<Category> getCategories(){
+        return categories;
+    }
+
+    public Account getMasterAccount(){
+        return masterAccount;
+    }
+
     public void addCategory(String name){
         var newCategory = new Category(name,this);
         addCategory(newCategory);
@@ -32,7 +38,7 @@ public class CategoryManager {
         var iter = categories.iterator();
         var total = 0l;
         while(iter.hasNext()){
-            total += iter.next().getAmount();
+            total += iter.next().getTotal();
         }
         return total;
     }
