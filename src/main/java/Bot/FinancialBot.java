@@ -2,6 +2,7 @@ package Bot;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
+import  org.telegram.telegrambots.meta.api.objects.*;
 
 public class FinancialBot extends TelegramLongPollingBot {
 
@@ -17,23 +18,27 @@ public class FinancialBot extends TelegramLongPollingBot {
     }
 
     @Override
-    public void onUpdateReceived(org.telegram.telegrambots.meta.api.objects.Update update) {
-        var command = update.getMessage().getText();
-        var message = new SendMessage();
-        if(command.equals("/about")){
-            System.out.println("Konstantin & Mariia");
-            message.setText("Creators: Konstantin & Mariia");
-        }
+    public void onUpdateReceived(Update update) {
+        var inMessage = update.getMessage();
 
-        if(command.equals("/help")){
-            System.out.println("/about\n/help");
-            message.setText("That I can do:\n/about - Show my creators\n/help - Show the list of possible commands");
-        }
-        message.setChatId(update.getMessage().getChatId().toString());
         try {
-            execute(message);
-        } catch (TelegramApiException e) {
+            execute(getResponseToInputtedMessage(inMessage));
+        }
+        catch (TelegramApiException e) {
             e.printStackTrace();
         }
+    }
+
+    private SendMessage getResponseToInputtedMessage(Message message){
+        var outMessage = new SendMessage();
+        if(message.getText().equals("/about")){
+            outMessage.setText("Creators: Konstantin & Mariia");
+        }
+
+        if(message.getText().equals("/help")){
+            outMessage.setText("That I can do:\n/about - Show my creators\n/help - Show the list of possible commands");
+        }
+        outMessage.setChatId(message.getChatId().toString());
+        return outMessage;
     }
 }
