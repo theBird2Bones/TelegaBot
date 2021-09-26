@@ -27,16 +27,13 @@ public class FinancialBot extends TelegramLongPollingBot {
 
         if(command.equals("/help")){
             System.out.println("/about\n/help");
-            message.setText("What can I do:\n/about\n/help");
+            message.setText("That I can do:\n/about - Show my creators\n/help - Show the list of possible commands");
         }
-        message.setChatId("460586723");
+        message.setChatId(update.getMessage().getChatId().toString());
         try {
             execute(message);
         } catch (TelegramApiException e) {
             e.printStackTrace();
         }
-
-
-
     }
 }
