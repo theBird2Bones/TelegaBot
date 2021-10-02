@@ -5,8 +5,6 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import  org.telegram.telegrambots.meta.api.objects.*;
 
 public class FinancialBot extends TelegramLongPollingBot {
-
-
     @Override
     public String getBotUsername() {
         return "Financil_bot";
@@ -20,7 +18,6 @@ public class FinancialBot extends TelegramLongPollingBot {
     @Override
     public void onUpdateReceived(Update update) {
         var inMessage = update.getMessage();
-
         try {
             execute(getResponseToInputtedMessage(inMessage));
         }
