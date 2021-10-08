@@ -15,6 +15,10 @@ public class Account {
         this.name = name;
     }
 
+    public String getName(){
+        return name;
+    }
+
     public void addCategoryManager(String name){
         var newCategoryManager = new CategoryManager(name,this);
         addCategoryManager(newCategoryManager);
