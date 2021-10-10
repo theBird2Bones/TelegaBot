@@ -25,6 +25,10 @@ public class CategoryManager {
         return masterAccount;
     }
 
+    public String getName(){
+        return name;
+    }
+
     public void addCategory(String name){
         var newCategory = new Category(name,this);
         addCategory(newCategory);
