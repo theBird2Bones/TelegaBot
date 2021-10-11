@@ -6,6 +6,7 @@ public class CategoryManager {
     private String name;
     private ArrayList<Category> categories;
     private Account masterAccount;
+    private Enum state;
 
     public CategoryManager(String name, Account masterAccount){
         this.name = name;
@@ -16,6 +17,7 @@ public class CategoryManager {
     public void setName(String name) {
         this.name = name;
     }
+    public String getName() {return name;}
 
     public ArrayList<Category> getCategories(){
         return categories;
@@ -25,9 +27,6 @@ public class CategoryManager {
         return masterAccount;
     }
 
-    public String getName(){
-        return name;
-    }
 
     public void addCategory(String name){
         var newCategory = new Category(name,this);
