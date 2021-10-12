@@ -1,47 +1,45 @@
 package Bot;
 
+import org.antlr.stringtemplate.language.Cat;
+import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
+
 public class StateManager {
     private ChosenLevel chosenLevel;
-    private Account account;
-    private Object pointer;
+    private Account takenAccount;
+    private CategoryManager takenCategoryManager;
     private StateManager(Builder builder){
-        this.chosenLevel = builder.chosenLevel;
-        this.account = builder.account;
-        this.pointer = builder.pointer;
+        takenAccount = builder.account;
+        chosenLevel = ChosenLevel.account;
+        takenCategoryManager = null;
     }
 
-    public void levelUp(){
-        if(pointer instanceof Category){
-            pointer = ((Category) pointer).getMasterCategoryManager();
-            chosenLevel = ChosenLevel.categoryManager;
-        }
-
-        if(pointer instanceof CategoryManager){
-            pointer = ((CategoryManager) pointer).getMasterAccount();
-            chosenLevel = ChosenLevel.account;
-        }
+    public void releaseCategoryManager(){
+        chosenLevel = ChosenLevel.account;
+        takenCategoryManager = null;
     }
 
-    //TODO: сделать метод levelDown с параметром, котоый бы позвалял посмотреть что внутри
-    public void levelDown(Category category){
-       //?????????????
-    }
-    public void setLevel(ChosenLevel chosenLevel){
-        this.chosenLevel = chosenLevel;
-    }
+    public SendMessage
 
-    public ChosenLevel getCurrentLevel(){
+    public ChosenLevel getChosenLevel(){
         return chosenLevel;
     }
-    //TODO: добавить возможность вытаскивать поинтер для более быстрого доступа. нужна какая то абстракция
 
-    public Account getAccount(){
-        return account;
+    public Account getTakenAccount(){
+        return takenAccount;
     }
+
+    public void setTakenCategoryManager(CategoryManager categoryManager){
+        takenCategoryManager = categoryManager;
+    }
+
+    public CategoryManager getTakenCategoryManager(){
+        chosenLevel = ChosenLevel.categoryManager;
+        return takenCategoryManager;
+    }
+
     public static class Builder{
         private ChosenLevel chosenLevel;
         private Account account;
-        private Object pointer = account;
 
         public StateManager build(){
             return new StateManager(this);
@@ -51,7 +49,7 @@ public class StateManager {
             return this;
         }
 
-        public Builder setAccount(String name){
+        public Builder setAccountWithName(String name){
             this.account = new Account(name);
             return this;
         }
