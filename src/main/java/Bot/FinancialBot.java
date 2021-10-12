@@ -1,8 +1,10 @@
 package Bot;
+
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import  org.telegram.telegrambots.meta.api.objects.*;
+import java.util.*;
 
 public class FinancialBot extends TelegramLongPollingBot {
     @Override
@@ -26,16 +28,32 @@ public class FinancialBot extends TelegramLongPollingBot {
         }
     }
 
-    private SendMessage getResponseToInputtedMessage(Message message){
-        var outMessage = new SendMessage();
-        if(message.getText().equals("/about")){
-            outMessage.setText("Creators: Konstantin & Mariia");
-        }
+    private HashMap<String, StateManager> usersStateManager = new HashMap<>();
+    private HashMap<String, Command> commands = createCommands();
 
-        if(message.getText().equals("/help")){
-            outMessage.setText("That I can do:\n/about - Show my creators\n/help - Show the list of possible commands");
+    private HashMap<String, Command> createCommands(){
+        var commands = new HashMap<String, Command>();
+        commands.put("/about", new Command(Command.Name.about, "Creators: Konstantin & Mariia"));
+        commands.put("/help", new Command(Command.Name.help, "That I can do:\n/about -" +
+                " Show my creators\n/help - Show the list of possible commands"));
+
+        return commands;
+    }
+
+    private SendMessage getResponseToInputtedMessage(Message message){
+        if(!usersStateManager.containsKey(message.getChatId().toString())){
+           usersStateManager.put(message.getChatId().toString(), new StateManager("Common"));
         }
-        outMessage.setChatId(message.getChatId().toString());
-        return outMessage;
+        var userStateManager = usersStateManager.get(message.getChatId().toString());
+
+        return MessageBuilder.getSendMessageWithId(
+                commands.get(userStateManager.getChatID()).getMessage(), message.getChatId().toString());
+    }
+
+    private static class MessageBuilder{
+        public static SendMessage getSendMessageWithId(SendMessage message, String id){
+            message.setChatId(id);
+            return message;
+        }
     }
 }
