@@ -1,59 +1,62 @@
 package Bot;
 
+import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
+
 public class StateManager {
     private ChosenLevel chosenLevel;
-    private Account account;
-    private Object pointer;
-    private StateManager(Builder builder){
-        this.chosenLevel = builder.chosenLevel;
-        this.account = builder.account;
-        this.pointer = builder.pointer;
+    private Account takenAccount;
+    private CategoryManager takenCategoryManager;
+    private String chatID;
+
+    public StateManager(String accountName){
+        takenAccount = new Account(accountName);
+        chosenLevel = ChosenLevel.account;
+        takenCategoryManager = null;
     }
 
-    public void levelUp(){
-        if(pointer instanceof Category){
-            pointer = ((Category) pointer).getMasterCategoryManager();
-            chosenLevel = ChosenLevel.categoryManager;
-        }
-
-        if(pointer instanceof CategoryManager){
-            pointer = ((CategoryManager) pointer).getMasterAccount();
-            chosenLevel = ChosenLevel.account;
-        }
+    public StateManager(String accountName, String chatID){
+        takenAccount = new Account(accountName);
+        chosenLevel = ChosenLevel.account;
+        takenCategoryManager = null;
+        this.chatID = chatID;
     }
 
-    //TODO: сделать метод levelDown с параметром, котоый бы позвалял посмотреть что внутри
-    public void levelDown(Category category){
-       //?????????????
-    }
-    public void setLevel(ChosenLevel chosenLevel){
-        this.chosenLevel = chosenLevel;
+    public SendMessage executeCommand(Command command){
+        return switch (command.getName()){
+            case about -> command.getMessage();
+            case help -> command.getMessage();
+            case getAccountTotal -> command.getMessage();
+            case getInnerCategoryManagers -> command.getMessage();
+            case getInnerCategories -> command.getMessage();
+            case getCategoryManagerTotal -> command.getMessage();
+            case getCategoryTotal -> command.getMessage();
+            case addCategory -> command.getMessage();
+        };
     }
 
-    public ChosenLevel getCurrentLevel(){
+    public String getChatID(){
+        return chatID;
+    }
+
+    public void releaseCategoryManager(){
+        chosenLevel = ChosenLevel.account;
+        takenCategoryManager = null;
+    }
+
+    public ChosenLevel getChosenLevel(){
         return chosenLevel;
     }
-    //TODO: добавить возможность вытаскивать поинтер для более быстрого доступа. нужна какая то абстракция
 
-    public Account getAccount(){
-        return account;
+    public Account getTakenAccount(){
+        return takenAccount;
     }
-    public static class Builder{
-        private ChosenLevel chosenLevel;
-        private Account account;
-        private Object pointer = account;
 
-        public StateManager build(){
-            return new StateManager(this);
-        }
-        public Builder setAccount(Account account){
-            this.account = account;
-            return this;
-        }
+    public void setTakenCategoryManager(CategoryManager categoryManager){
+        takenCategoryManager = categoryManager;
+    }
 
-        public Builder setAccount(String name){
-            this.account = new Account(name);
-            return this;
-        }
+    public CategoryManager getTakenCategoryManager(){
+        chosenLevel = ChosenLevel.categoryManager;
+        return takenCategoryManager;
     }
 }
