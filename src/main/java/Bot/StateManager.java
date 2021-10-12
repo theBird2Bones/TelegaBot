@@ -1,5 +1,7 @@
 package Bot;
 
+import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
+
 public class StateManager {
     private ChosenLevel chosenLevel;
     private Account takenAccount;
@@ -19,9 +21,17 @@ public class StateManager {
         this.chatID = chatID;
     }
 
-    //TODO: выпилить после подключения бд
-    public void setChatID(String id){
-        chatID = id;
+    public SendMessage executeCommand(Command command){
+        return switch (command.getName()){
+            case about -> command.getMessage();
+            case help -> command.getMessage();
+            case getAccountTotal -> command.getMessage();
+            case getInnerCategoryManagers -> command.getMessage();
+            case getInnerCategories -> command.getMessage();
+            case getCategoryManagerTotal -> command.getMessage();
+            case getCategoryTotal -> command.getMessage();
+            case addCategory -> command.getMessage();
+        };
     }
 
     public String getChatID(){
@@ -32,8 +42,6 @@ public class StateManager {
         chosenLevel = ChosenLevel.account;
         takenCategoryManager = null;
     }
-
-//    public SendMessage
 
     public ChosenLevel getChosenLevel(){
         return chosenLevel;
