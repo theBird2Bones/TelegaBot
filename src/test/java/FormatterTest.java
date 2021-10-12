@@ -1,6 +1,7 @@
 import Bot.Account;
 import Bot.Category;
 import Bot.CategoryManager;
+import Bot.Formatter;
 import org.apache.commons.lang.NotImplementedException;
 import org.junit.Test;
 
@@ -29,7 +30,7 @@ public class FormatterTest {
         assertEquals(
             String.format("Category manager: %s\nInner categories:\n%s",
             catMan.getName(),
-            catMan.getCategories().get(0).getTotal()),
+            catMan.getCategories().get(0).getName()),
             formatter.formatCategoryManagerContent(catMan));
     }
 
@@ -46,13 +47,13 @@ public class FormatterTest {
         catMan.getCategories().get(2).subtract(200);
         assertEquals(String.format("Category manager: %s\nInner categories:\n%s\n%s\n%s",
             catMan.getName(),
-            catMan.getCategories().get(0).getTotal(),
-            catMan.getCategories().get(1).getTotal(),
-            catMan.getCategories().get(2).getTotal()),
+            catMan.getCategories().get(0).getName(),
+            catMan.getCategories().get(1).getName(),
+            catMan.getCategories().get(2).getName()),
             formatter.formatCategoryManagerContent(catMan));
     }
 
-
+    @Test
     public void CategoryManagerShowTotalTest(){
         var catMan = new CategoryManager("income",null);
         var formatter = new Formatter();
@@ -106,30 +107,12 @@ public class FormatterTest {
         innerManager.getCategories().get(1).subtract(300);
 
 
-        assertEquals(String.format("Account: %s\nTotal:\n%s\nwith inner category managers:\n%s\n%s",
+        assertEquals(String.format("Account: %s\nTotal: %s\nwith inner category managers:\n%s\n%s",
                 acc.getName(),
                 acc.getTotal(),
-            acc.getCategoryManagers().get(0).getName(),
+                acc.getCategoryManagers().get(0).getName(),
                 acc.getCategoryManagers().get(1).getName()),
-                formatter.formatAccountInnerCategoryManager(acc));
+                formatter.formatAccountInnerCategoryManagerTotal(acc));
     }
 }
 
-// нужно написать реализацию форматтера в отдельном файле. здесь просто заглушка
-class Formatter{
-    public String formatCategory(Category category){
-        throw new NotImplementedException();
-    }
-
-    public String formatCategoryManagerContent(CategoryManager categoryManager){
-        throw new NotImplementedException();
-    }
-
-    public String formatCategoryManagerTotal(CategoryManager categoryManager){
-        throw new NotImplementedException();
-    }
-
-    public String formatAccountInnerCategoryManager(Account account){
-        throw new NotImplementedException();
-    }
-}

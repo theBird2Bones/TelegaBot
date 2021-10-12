@@ -38,4 +38,15 @@ public class FinancialBot extends TelegramLongPollingBot {
         outMessage.setChatId(message.getChatId().toString());
         return outMessage;
     }
+
+    public void botAnswer(Category category) {
+
+    }
+    public void botAnswer(CategoryManager categoryManager){
+
+    }
+
+    public void botAnswer(Account account){
+
+    }
 }

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 public class Account {
     private String name;
+    private String currency;
     private ArrayList<CategoryManager> categoryManagers;
 
     public Account(String name){
@@ -14,6 +15,8 @@ public class Account {
     public void setName(String name){
         this.name = name;
     }
+    public String getCurrency() {return currency;}
+    public void setCurrency(String cur){ this.currency = cur;}
 
     public String getName(){
         return name;

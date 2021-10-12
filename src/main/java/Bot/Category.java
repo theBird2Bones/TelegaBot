@@ -25,6 +25,8 @@ public class Category {
     public long getTotal(){
         return income - expense;
     }
+    public long getIncome() { return  income ; }
+    public long getExpense() { return  expense; }
 
     public CategoryManager getMasterCategoryManager(){
         return masterCategoryManager;
