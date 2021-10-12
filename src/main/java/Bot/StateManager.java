@@ -1,16 +1,31 @@
 package Bot;
 
-import org.antlr.stringtemplate.language.Cat;
-import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
-
 public class StateManager {
     private ChosenLevel chosenLevel;
     private Account takenAccount;
     private CategoryManager takenCategoryManager;
-    private StateManager(Builder builder){
-        takenAccount = builder.account;
+    private String chatID;
+
+    public StateManager(String accountName){
+        takenAccount = new Account(accountName);
         chosenLevel = ChosenLevel.account;
         takenCategoryManager = null;
+    }
+
+    public StateManager(String accountName, String chatID){
+        takenAccount = new Account(accountName);
+        chosenLevel = ChosenLevel.account;
+        takenCategoryManager = null;
+        this.chatID = chatID;
+    }
+
+    //TODO: выпилить после подключения бд
+    public void setChatID(String id){
+        chatID = id;
+    }
+
+    public String getChatID(){
+        return chatID;
     }
 
     public void releaseCategoryManager(){
@@ -18,7 +33,7 @@ public class StateManager {
         takenCategoryManager = null;
     }
 
-    public SendMessage
+//    public SendMessage
 
     public ChosenLevel getChosenLevel(){
         return chosenLevel;
@@ -35,23 +50,5 @@ public class StateManager {
     public CategoryManager getTakenCategoryManager(){
         chosenLevel = ChosenLevel.categoryManager;
         return takenCategoryManager;
-    }
-
-    public static class Builder{
-        private ChosenLevel chosenLevel;
-        private Account account;
-
-        public StateManager build(){
-            return new StateManager(this);
-        }
-        public Builder setAccount(Account account){
-            this.account = account;
-            return this;
-        }
-
-        public Builder setAccountWithName(String name){
-            this.account = new Account(name);
-            return this;
-        }
     }
 }
