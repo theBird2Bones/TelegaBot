@@ -30,7 +30,7 @@ public class FormatterTest {
         assertEquals(
             String.format("Category manager: %s\nInner categories:\n%s",
             catMan.getName(),
-            catMan.getCategories().get(0).getTotal()),
+            catMan.getCategories().get(0).getName()),
             formatter.formatCategoryManagerContent(catMan));
     }
 
@@ -47,9 +47,9 @@ public class FormatterTest {
         catMan.getCategories().get(2).subtract(200);
         assertEquals(String.format("Category manager: %s\nInner categories:\n%s\n%s\n%s",
             catMan.getName(),
-            catMan.getCategories().get(0).getTotal(),
-            catMan.getCategories().get(1).getTotal(),
-            catMan.getCategories().get(2).getTotal()),
+            catMan.getCategories().get(0).getName(),
+            catMan.getCategories().get(1).getName(),
+            catMan.getCategories().get(2).getName()),
             formatter.formatCategoryManagerContent(catMan));
     }
 
@@ -107,7 +107,7 @@ public class FormatterTest {
         innerManager.getCategories().get(1).subtract(300);
 
 
-        assertEquals(String.format("Account: %s\nTotal:\n%s\nwith inner category managers:\n%s\n%s",
+        assertEquals(String.format("Account: %s\nTotal: %s\nwith inner category managers:\n%s\n%s",
                 acc.getName(),
                 acc.getTotal(),
                 acc.getCategoryManagers().get(0).getName(),
