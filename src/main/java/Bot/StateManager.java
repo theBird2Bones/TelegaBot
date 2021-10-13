@@ -1,37 +1,22 @@
 package Bot;
 
-import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
-
 public class StateManager {
-    private ChosenLevel chosenLevel;
+    private CurrentState currentState;
     private Account takenAccount;
     private CategoryManager takenCategoryManager;
     private String chatID;
 
     public StateManager(String accountName){
         takenAccount = new Account(accountName);
-        chosenLevel = ChosenLevel.account;
+        currentState = CurrentState.tookAccount;
         takenCategoryManager = null;
     }
 
     public StateManager(String accountName, String chatID){
         takenAccount = new Account(accountName);
-        chosenLevel = ChosenLevel.account;
+        currentState = CurrentState.tookAccount;
         takenCategoryManager = null;
         this.chatID = chatID;
-    }
-
-    public SendMessage executeCommand(Command command){
-        return switch (command.getName()){
-            case about -> command.getMessage();
-            case help -> command.getMessage();
-            case getAccountTotal -> command.getMessage();
-            case getInnerCategoryManagers -> command.getMessage();
-            case getInnerCategories -> command.getMessage();
-            case getCategoryManagerTotal -> command.getMessage();
-            case getCategoryTotal -> command.getMessage();
-            case addCategory -> command.getMessage();
-        };
     }
 
     public String getChatID(){
@@ -39,12 +24,16 @@ public class StateManager {
     }
 
     public void releaseCategoryManager(){
-        chosenLevel = ChosenLevel.account;
+        currentState = CurrentState.tookAccount;
         takenCategoryManager = null;
     }
 
-    public ChosenLevel getChosenLevel(){
-        return chosenLevel;
+    public CurrentState getCurrentState(){
+        return currentState;
+    }
+
+    public void setCurrentState(CurrentState state){
+        currentState = state;
     }
 
     public Account getTakenAccount(){
@@ -56,7 +45,7 @@ public class StateManager {
     }
 
     public CategoryManager getTakenCategoryManager(){
-        chosenLevel = ChosenLevel.categoryManager;
+        currentState = CurrentState.tookCategoryManager;
         return takenCategoryManager;
     }
 }
