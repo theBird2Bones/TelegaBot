@@ -1,6 +1,5 @@
 package Bot;
 
-
 public class Formatter {
     public static String formatCategory(Category category){
         return "Category: " + category.getName() + "\n" + "Outcome: " + category.getTotal();
