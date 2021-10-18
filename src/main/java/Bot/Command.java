@@ -29,7 +29,17 @@ class HelpCommand extends Command{
 
     @Override
     public String execute() {
-        return "That I can do:\n/about - Show my creators\n/help - Show the list of possible commands";
+        return "That I can do:" +
+                "\n/about - Show my creators" +
+                "\n/help - Show the list of possible commands" +
+                "\n/show_content - Show content" +
+                "\n/get_total - Get total" +
+                "\n/move_to - Step in" +
+                "\n/move_up - Step out" +
+                "\n/increase - Increase position" +
+                "\n/create - Create something new" +
+                "\n/delete - Delete something" +
+                "\n/rename - Rename something";
     }
 }
 
@@ -80,6 +90,8 @@ class MoveToCommand extends Command{
                 stateManager.setTakenCategoryManager(
                         stateManager .getTakenAccount() .getCategoryManagers()
                                 .get(Integer.parseInt(command.split(" ")[2])-1));
+
+
                 yield  String.format("You are moved to %s",
                         stateManager .getTakenAccount() .getCategoryManagers()
                                 .get(Integer.parseInt(command.split(" ")[2])-1));
@@ -195,3 +207,19 @@ class RenameCommand extends Command{
         };
     }
 }
+/*
+class GetTreeCommand extends Command{
+
+    private Account account;
+
+    @Override
+    public String execute() {
+
+        for (var categoryManager : account.getCategoryManagers()){
+            for (var category : categoryManager.getCategories()){
+
+            }
+        }
+        return null;
+    }
+}*/
