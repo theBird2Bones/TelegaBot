@@ -10,21 +10,20 @@ public class Account {
     public Account(String name){
         this.name = name;
         categoryManagers = new ArrayList<>();
+        categoryManagers.add(new DepositCategoryManager("Income"));
+        categoryManagers.add(new WithdrawalCategoryManager("Outcome"));
     }
 
     public void setName(String name){
         this.name = name;
     }
+
     public String getCurrency() {return currency;}
+
     public void setCurrency(String cur){ this.currency = cur;}
 
     public String getName(){
         return name;
-    }
-
-    public void addCategoryManager(String name){
-        var newCategoryManager = new CategoryManager(name,this);
-        addCategoryManager(newCategoryManager);
     }
 
     public ArrayList<CategoryManager> getCategoryManagers(){
@@ -43,9 +42,5 @@ public class Account {
     @Override
     public String toString() {
         return name;
-    }
-
-    private void addCategoryManager(CategoryManager categoryManager){
-        categoryManagers.add(categoryManager);
     }
 }
