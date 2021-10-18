@@ -106,7 +106,7 @@ class IncreaseCommand extends Command {
                 if (Pattern.matches("^-?\\d+?$", splittedMessageText[2])) {
                     stateManager.getTakenCategoryManager().getCategories()
                             .get(Integer.parseInt(splittedMessageText[1]) - 1)
-                            .add(Long.parseLong(splittedMessageText[2]));
+                            .put(Long.parseLong(splittedMessageText[2]));
                     yield Formatter.formatCategoryManagerTotal(stateManager.getTakenCategoryManager());
                 }
                 yield "Sorry but you have to write digits only";
