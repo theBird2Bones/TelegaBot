@@ -1,35 +1,23 @@
 package Bot;
-public class Category {
-    private String name;
-    private long income;
-    private long expense;
-    private CategoryManager masterCategoryManager;
 
-    public Category(String name, CategoryManager masterCategoryManager ){
+abstract class Category {
+    protected String name;
+    protected long total;
+
+    public Category(String name, long initValue){
         this.name = name;
-        this.masterCategoryManager = masterCategoryManager;
+        total = initValue;
     }
 
-    public void subtract(long value){
-        if(value > 0)
-            expense += value;
-        else throw new IllegalArgumentException();
+    public Category(String name){
+        total = 0;
+        this.name = name;
     }
 
-    public void add(long value){
-        if(value > 0)
-            income += value;
-        else throw new IllegalArgumentException();
-    }
+    abstract public void put(long value);
 
     public long getTotal(){
-        return income - expense;
-    }
-    public long getIncome() { return  income ; }
-    public long getExpense() { return  expense; }
-
-    public CategoryManager getMasterCategoryManager(){
-        return masterCategoryManager;
+        return total;
     }
 
     public String getName() {
