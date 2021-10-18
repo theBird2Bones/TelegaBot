@@ -36,8 +36,6 @@ public class FinancialBot extends TelegramLongPollingBot {
     //как создать команды заранее, если они требуют доп параметры???? я не понимаю
     private StateManager initStateManagerWithId(String chatId){
         var stateManager = new StateManager("Common", chatId);
-        stateManager.getTakenAccount().addCategoryManager("Income");
-        stateManager.getTakenAccount().addCategoryManager("Outcome");
         return stateManager;
     }
 
