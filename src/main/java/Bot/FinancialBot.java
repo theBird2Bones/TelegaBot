@@ -68,11 +68,11 @@ public class FinancialBot extends TelegramLongPollingBot {
             outMessage = new MoveToCommand(userStateManager, messageText).execute();
         } else if (messageText.contains("/increase")) {
             outMessage = new IncreaseCommand(userStateManager, messageText).execute();
-        } else if (messageText.contains("create")) {
+        } else if (messageText.contains("/create")) {
             outMessage = new CreateCommand(userStateManager, messageText).execute();
-        } else if (messageText.contains("move_up")) {
+        } else if (messageText.contains("/move_up")) {
             outMessage = new MoveUpCommand(userStateManager).execute();
-        } else if (messageText.contains("delete")) {
+        } else if (messageText.contains("/delete")) {
             outMessage = new DeleteCommand(userStateManager, messageText).execute();
         } else if (messageText.contains("/rename")) {
             outMessage = new RenameCommand(userStateManager, messageText).execute();
