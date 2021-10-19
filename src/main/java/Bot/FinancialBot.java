@@ -76,6 +76,8 @@ public class FinancialBot extends TelegramLongPollingBot {
             outMessage = new DeleteCommand(userStateManager, messageText).execute();
         } else if (messageText.contains("/rename")) {
             outMessage = new RenameCommand(userStateManager, messageText).execute();
+        } else if (messageText.contains("get_tree")){
+            outMessage = new GetTreeCommand(userStateManager).execute();
         }
         return MessageBuilder.createMessage(outMessage, userStateManager.getChatID());
     }

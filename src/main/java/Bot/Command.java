@@ -36,10 +36,11 @@ class HelpCommand extends Command{
                 "\n/get_total - Get total" +
                 "\n/move_to - Step in" +
                 "\n/move_up - Step out" +
-                "\n/increase - Increase position" +
+                "\n/put - Put something" +
                 "\n/create - Create something new" +
                 "\n/delete - Delete something" +
-                "\n/rename - Rename something";
+                "\n/rename - Rename something" +
+                "\n/get_tree - Get tree";
     }
 }
 
@@ -207,19 +208,35 @@ class RenameCommand extends Command{
         };
     }
 }
-/*
+
 class GetTreeCommand extends Command{
 
-    private Account account;
+    public GetTreeCommand(StateManager stateManager){
+        super(stateManager);
+    }
 
     @Override
     public String execute() {
+        var account = stateManager.getTakenAccount();
+        var tree = "Current account: " + account.getName() + "\n" + "\n";
 
         for (var categoryManager : account.getCategoryManagers()){
-            for (var category : categoryManager.getCategories()){
+            tree += "   " + categoryManager.getName() + ":\n" + "\n";
 
+            if (categoryManager.getCategories().size() != 0) {
+                var i = 1;
+                for (var category : categoryManager.getCategories()) {
+                    tree += "        " + i + ") " + category.getName() + " : " + category.getTotal() + "\n";
+                    i++;
+                }
+            } else{
+                tree += "       There are not any categories" + "\n";
             }
+
+            tree += "\n" + "    " +"Total: "+ categoryManager.getTotal() + "\n" + "\n";
+
         }
-        return null;
+        tree += "Account Total: " + account.getTotal();
+        return tree;
     }
-}*/
+}
