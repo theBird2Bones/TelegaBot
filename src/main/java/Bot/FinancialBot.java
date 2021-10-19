@@ -60,21 +60,21 @@ public class FinancialBot extends TelegramLongPollingBot {
             outMessage = new AboutCommand(userStateManager).execute();
         } else if (messageText.contains("/help")) {
             outMessage = new HelpCommand(userStateManager).execute();
-        } else if (messageText.contains("/show_content")) {
+        } else if (messageText.contains("show content")) {
             outMessage = new ShowContentCommand(userStateManager).execute();
-        } else if (messageText.contains("/get_total")) {
+        } else if (messageText.contains("get total")) {
             outMessage = new GetTotalCommand(userStateManager).execute();
-        } else if (messageText.contains("/move_to")) {
+        } else if (messageText.contains("move to")) {
             outMessage = new MoveToCommand(userStateManager, messageText).execute();
-        } else if (messageText.contains("/increase")) {
+        } else if (messageText.contains("increase")) {
             outMessage = new IncreaseCommand(userStateManager, messageText).execute();
         } else if (messageText.contains("/create")) {
             outMessage = new CreateCommand(userStateManager, messageText).execute();
-        } else if (messageText.contains("/move_up")) {
+        } else if (messageText.contains("move up")) {
             outMessage = new MoveUpCommand(userStateManager).execute();
         } else if (messageText.contains("/delete")) {
             outMessage = new DeleteCommand(userStateManager, messageText).execute();
-        } else if (messageText.contains("/rename")) {
+        } else if (messageText.contains("rename")) {
             outMessage = new RenameCommand(userStateManager, messageText).execute();
         } else if (messageText.contains("get_tree")){
             outMessage = new GetTreeCommand(userStateManager).execute();

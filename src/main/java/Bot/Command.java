@@ -32,15 +32,15 @@ class HelpCommand extends Command{
         return "That I can do:" +
                 "\n/about - Show my creators" +
                 "\n/help - Show the list of possible commands" +
-                "\n/show_content - Show content" +
-                "\n/get_total - Get total" +
-                "\n/move_to - Step in" +
-                "\n/move_up - Step out" +
+                "\n/show content - Show content" +
+                "\n/get total - Get total" +
+                "\n/move to - Step in" +
+                "\n/move up - Step out" +
                 "\n/put - Put something" +
                 "\n/create - Create something new" +
                 "\n/delete - Delete something" +
                 "\n/rename - Rename something" +
-                "\n/get_tree - Get tree";
+                "\n/get tree - Get tree";
     }
 }
 
@@ -91,8 +91,6 @@ class MoveToCommand extends Command{
                 stateManager.setTakenCategoryManager(
                         stateManager .getTakenAccount() .getCategoryManagers()
                                 .get(Integer.parseInt(command.split(" ")[2])-1));
-
-
                 yield  String.format("You are moved to %s",
                         stateManager .getTakenAccount() .getCategoryManagers()
                                 .get(Integer.parseInt(command.split(" ")[2])-1));
