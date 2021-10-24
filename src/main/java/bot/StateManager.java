@@ -1,4 +1,6 @@
-package Bot;
+package bot;
+
+import bot.categories.CategoryManager;
 
 public class StateManager {
     private CurrentState currentState;

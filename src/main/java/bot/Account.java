@@ -1,5 +1,6 @@
-package Bot;
+package bot;
 
+import bot.categories.*;
 import java.util.ArrayList;
 
 public class Account {

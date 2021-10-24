@@ -4,12 +4,9 @@ import bot.Formatter;
 import bot.StateManager;
 import java.util.regex.Pattern;
 
-public class IncreaseCommand extends Command {
-    private String command;
-
-    public IncreaseCommand(StateManager stateManager, String command) {
-        super(stateManager);
-        this.command = command;
+public class PutCommand extends Command {
+    public PutCommand(StateManager stateManager, String command) {
+        super(stateManager, command);
     }
 
     @Override
@@ -17,7 +14,7 @@ public class IncreaseCommand extends Command {
         return switch (stateManager.getCurrentState()) {
             case tookAccount -> "Please choose 'Income' or 'Outcome' category to change balance";
             case tookCategoryManager -> {
-                var splittedMessageText = command.split(" ");
+                var splittedMessageText = textMessage.split(" ");
                 if (Pattern.matches("^-?\\d+?$", splittedMessageText[2])) {
                     stateManager.getTakenCategoryManager().getCategories()
                             .get(Integer.parseInt(splittedMessageText[1]) - 1)

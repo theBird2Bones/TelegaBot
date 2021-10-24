@@ -33,18 +33,39 @@ public class FinancialBot extends TelegramLongPollingBot {
     }
 
     private HashMap<String, StateManager> usersStateManager = new HashMap<>();
-    private HashMap<String, Function<StateManager,Command>> commands = createCommands();
+    private CommandTree commands = createCommands();
 
-    //как создать команды заранее, если они требуют доп параметры???? я не понимаю
     private StateManager initStateManagerWithId(String chatId){
         var stateManager = new StateManager("Common", chatId);
         return stateManager;
     }
 
-    private HashMap<String, Function<StateManager,Command>> createCommands(){
-        var commands = new HashMap<String, Function<StateManager,Command>>();
+    private CommandTree createCommands(){
+        var tree = new CommandTree.Builder();
+        tree.setCommand("/about",
+                textCommand -> stateManager -> new AboutCommand(stateManager));
+        tree.setCommand("/help",
+                textCommand -> stateManager -> new HelpCommand(stateManager));
+        tree.setCommand("show content",
+                textCommand -> stateManager -> new ShowContentCommand(stateManager));
+        tree.setCommand("create",
+                textCommand -> stateManager -> new CreateCommand(stateManager, textCommand));
+        tree.setCommand("delete",
+                textCommand -> stateManager -> new DeleteCommand(stateManager, textCommand));
+        tree.setCommand("get total",
+                textCommand -> stateManager -> new GetTotalCommand(stateManager));
+        tree.setCommand("get tree",
+                textCommand -> stateManager -> new GetTreeCommand(stateManager));
+        tree.setCommand("put",
+                textCommand -> stateManager -> new PutCommand(stateManager, textCommand));
+        tree.setCommand("move to",
+                textCommand -> stateManager -> new MoveToCommand(stateManager, textCommand));
+        tree.setCommand("move up",
+                textCommand -> stateManager -> new MoveUpCommand(stateManager));
+        tree.setCommand("rename",
+                textCommand -> stateManager -> new RenameCommand(stateManager, textCommand));
 
-        return commands;
+        return tree.build();
     }
 
     //TODO: there is ForceReply for chain conversation. it worth to check it
@@ -56,31 +77,8 @@ public class FinancialBot extends TelegramLongPollingBot {
         var userStateManager = usersStateManager.get(message.getChatId().toString());
 
         var messageText = message.getText().toLowerCase();
-        var outMessage = "undefined command";
+        var outMessage = commands.getCommand(messageText).apply(messageText).apply(userStateManager).execute();
 
-        if (messageText.contains("/about")) {
-            outMessage = new AboutCommand(userStateManager).execute();
-        } else if (messageText.contains("/help")) {
-            outMessage = new HelpCommand(userStateManager).execute();
-        } else if (messageText.contains("show content")) {
-            outMessage = new ShowContentCommand(userStateManager).execute();
-        } else if (messageText.contains("get total")) {
-            outMessage = new GetTotalCommand(userStateManager).execute();
-        } else if (messageText.contains("move to")) {
-            outMessage = new MoveToCommand(userStateManager, messageText).execute();
-        } else if (messageText.contains("increase")) {
-            outMessage = new IncreaseCommand(userStateManager, messageText).execute();
-        } else if (messageText.contains("/create")) {
-            outMessage = new CreateCommand(userStateManager, messageText).execute();
-        } else if (messageText.contains("move up")) {
-            outMessage = new MoveUpCommand(userStateManager).execute();
-        } else if (messageText.contains("/delete")) {
-            outMessage = new DeleteCommand(userStateManager, messageText).execute();
-        } else if (messageText.contains("rename")) {
-            outMessage = new RenameCommand(userStateManager, messageText).execute();
-        } else if (messageText.contains("get_tree")){
-            outMessage = new GetTreeCommand(userStateManager).execute();
-        }
         return MessageBuilder.createMessage(outMessage, userStateManager.getChatID());
     }
 

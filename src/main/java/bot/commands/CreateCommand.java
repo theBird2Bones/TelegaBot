@@ -5,10 +5,8 @@ import java.util.Arrays;
 import java.util.stream.Collectors;
 
 public class CreateCommand extends Command{
-    private String command;
     public CreateCommand(StateManager stateManager, String command){
-        super(stateManager);
-        this.command = command;
+        super(stateManager, command);
     }
 
     @Override
@@ -16,7 +14,7 @@ public class CreateCommand extends Command{
         return switch (stateManager.getCurrentState()){
             case tookAccount -> "Sorry, but you can create categories in 'Income' or 'Outcome' only";
             case tookCategoryManager ->{
-                var categoryName = Arrays.stream(command.split(" "))
+                var categoryName = Arrays.stream(textMessage.split(" "))
                         .skip(1).collect(Collectors.joining(" ")).toString();
                 stateManager.getTakenCategoryManager().addCategory(categoryName);
                 yield Formatter.formatCategoryManagerContent(stateManager.getTakenCategoryManager());

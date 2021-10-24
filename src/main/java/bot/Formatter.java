@@ -1,4 +1,6 @@
-package Bot;
+package bot;
+
+import bot.categories.*;
 
 public class Formatter {
     public static String formatCategory(Category category){
