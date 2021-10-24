@@ -237,6 +237,6 @@ class GetTreeCommand extends Command{
 
         }
         tree += "Account total: " + account.getTotal();
-        return tree;
+        return tree;//
     }
 }
