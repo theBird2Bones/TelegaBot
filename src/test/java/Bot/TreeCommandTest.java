@@ -149,6 +149,6 @@ public class TreeCommandTest {
                         account.getCategoryManagers().get(1).getCategories().get(1).getTotal(),
                         account.getCategoryManagers().get(1).getTotal(),
                         account.getTotal()),
-                new GetTreeCommand(stateManager).execute());
+                new GetTreeCommand(stateManager).execute());//
     }
 }
