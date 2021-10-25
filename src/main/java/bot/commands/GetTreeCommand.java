@@ -1,5 +1,4 @@
 package bot.commands;
-
 import bot.StateManager;
 
 public class GetTreeCommand extends Command{
@@ -18,17 +17,17 @@ public class GetTreeCommand extends Command{
             if (categoryManager.getCategories().size() != 0) {
                 var i = 1;
                 for (var category : categoryManager.getCategories()) {
-                    tree += "        " + i + ") " + category.getName() + " : " + category.getTotal() + "\n";
+                    tree += "       " + i + ") " + category.getName() + " : " + category.getTotal() + "\n";
                     i++;
                 }
             } else{
                 tree += "       There are not any categories" + "\n";
             }
 
-            tree += "\n" + "    " +"Total: "+ categoryManager.getTotal() + "\n" + "\n";
+            tree += "\n" + "   " +"Total: "+ categoryManager.getTotal() + "\n" + "\n";
 
         }
-        tree += "Account Total: " + account.getTotal();
+        tree += "Account total: " + account.getTotal();
         return tree;
     }
 }
