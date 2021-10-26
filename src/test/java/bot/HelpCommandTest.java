@@ -1,15 +1,16 @@
-package bot.commands;
+package bot;
 
-import bot.StateManager;
+import bot.commands.AboutCommand;
+import bot.commands.HelpCommand;
+import org.junit.Test;
 
-public class HelpCommand extends Command{
-    public HelpCommand(StateManager stateManager){
-        super(stateManager);
-    }
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
-    @Override
-    public String execute() {
-        return "That I can do:" +
+public class HelpCommandTest {
+    @Test
+    public void HelpTest(){
+        var stateManager = new StateManager("Current Account");
+        assertEquals("That I can do:" +
                 "\n/about - Show my creators" +
                 "\n/help - Show the list of possible commands" +
                 "\nshow content - Show content" +
@@ -20,7 +21,8 @@ public class HelpCommand extends Command{
                 "\ncreate - Create something new" +
                 "\ndelete - Delete something" +
                 "\nrename - Rename something" +
-                "\nget tree - Get tree";
+                "\nget tree - Get tree",
+                new HelpCommand(stateManager).execute());
     }
-}
 
+}
