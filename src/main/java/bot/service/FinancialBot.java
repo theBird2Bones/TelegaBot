@@ -2,13 +2,11 @@ package bot.service;
 
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
-import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
-import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import  org.telegram.telegrambots.meta.api.objects.*;
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.*;
-import java.util.function.Function;
-
 import bot.*;
 import bot.commands.*;
 
@@ -20,7 +18,14 @@ public class FinancialBot extends TelegramLongPollingBot {
 
     @Override
     public String getBotToken() {
-        return "1966706011:AAHlNRT5Me_wyLqCV2dsOVwR9s2FfMYFwGg";
+        String token = "";
+        try {
+            var sc = new Scanner(new File("./.telega_bot_token.txt"));
+            token = sc.next();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        return token;
     }
 
     @Override
@@ -70,14 +75,12 @@ public class FinancialBot extends TelegramLongPollingBot {
         return tree.build();
     }
 
-    //TODO: there is ForceReply for chain conversation. it worth to check it
     private SendMessage getResponseToInputtedMessage(Message message) {
         if (!usersStateManager.containsKey(message.getChatId().toString())) {
             usersStateManager.put(message.getChatId().toString(),
                     initStateManagerWithId(message.getChatId().toString()));
         }
         var userStateManager = usersStateManager.get(message.getChatId().toString());
-
         var messageText = message.getText().toLowerCase();
         var outMessage = commands.getCommand(messageText).apply(messageText).apply(userStateManager).execute();
 
