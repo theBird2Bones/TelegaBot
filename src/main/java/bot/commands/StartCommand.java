@@ -1,13 +1,11 @@
 package bot.commands;
 
-import bot.CurrentState;
-import bot.Formatter;
 import bot.StateManager;
 import bot.keyboard.Keyboard;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 
-public class MoveUpCommand extends Command{
-    public MoveUpCommand(StateManager stateManager){
+public class StartCommand extends Command {
+    public StartCommand(StateManager stateManager) {
         super(stateManager);
     }
 
@@ -18,16 +16,11 @@ public class MoveUpCommand extends Command{
 
     @Override
     public SendMessage getInfo() {
-        stateManager.releaseCategoryManager();
-        stateManager.setCurrentState(CurrentState.tookAccount);
         return SendMessage
                 .builder()
                 .chatId(stateManager.getChatID())
-                .text(String.format("You moved up to %s\n\n%s",
-                        stateManager.getTakenAccount(),
-                        Formatter.formatAccountInnerCategoryManager(stateManager.getTakenAccount())))
+                .text("Let's start!\nUse buttons to navigate within 2 categories: Outcome and Income.")
                 .replyMarkup(Keyboard.createKeyboardMarkUp(stateManager.getAvailableButtonNames()))
                 .build();
     }
 }
-

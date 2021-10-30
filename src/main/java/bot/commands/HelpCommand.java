@@ -1,6 +1,8 @@
 package bot.commands;
 
 import bot.StateManager;
+import bot.keyboard.Keyboard;
+import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 
 public class HelpCommand extends Command{
     public HelpCommand(StateManager stateManager){
@@ -8,8 +10,13 @@ public class HelpCommand extends Command{
     }
 
     @Override
-    public String execute() {
-        return "That I can do:" +
+    public SendMessage execute() {
+        return getInfo();
+    }
+
+    @Override
+    public SendMessage getInfo() {
+        var preparedAnswer =  "That I can do:" +
                 "\n/about - Show my creators" +
                 "\n/help - Show the list of possible commands" +
                 "\nshow content - Show content" +
@@ -21,6 +28,12 @@ public class HelpCommand extends Command{
                 "\ndelete - Delete something" +
                 "\nrename - Rename something" +
                 "\nget tree - Get tree";
+        return SendMessage
+                .builder()
+                .chatId(stateManager.getChatID())
+                .text(preparedAnswer)
+                .replyMarkup(Keyboard.createKeyboardMarkUp(stateManager.getAvailableButtonNames()))
+                .build();
     }
 }
 

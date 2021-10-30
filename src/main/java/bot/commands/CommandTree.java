@@ -50,8 +50,9 @@ public class CommandTree {
 
     public static class Builder{
         private CommandTree commandTree = new CommandTree();
-        public void setCommand(String textCommand, Function<String, Function<StateManager, Command>> command){
+        public Builder setCommand(String textCommand, Function<String, Function<StateManager, Command>> command){
             this.commandTree.setTextCommand(textCommand, command);
+            return this;
         }
         public CommandTree build(){
             return this.commandTree;
