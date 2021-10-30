@@ -31,10 +31,13 @@ public class FinancialBot extends TelegramLongPollingBot {
     @Override
     public void onUpdateReceived(Update update) {
         var inMessage = update.getMessage();
+        if (update.hasCallbackQuery()) {
+            inMessage = update.getCallbackQuery().getMessage();
+            inMessage.setText(update.getCallbackQuery().getData());
+        }
         try {
             execute(getResponseToInputtedMessage(inMessage));
-        }
-        catch (TelegramApiException e) {
+        } catch (TelegramApiException e) {
             e.printStackTrace();
         }
     }
@@ -42,35 +45,32 @@ public class FinancialBot extends TelegramLongPollingBot {
     private HashMap<String, StateManager> usersStateManager = new HashMap<>();
     private CommandTree commands = createCommands();
 
-    private StateManager initStateManagerWithId(String chatId){
-        var stateManager = new StateManager("Common", chatId);
-        return stateManager;
-    }
-
-    private CommandTree createCommands(){
+    private CommandTree createCommands() {
         var tree = new CommandTree.Builder();
-        tree.setCommand("/about",
-                textCommand -> stateManager -> new AboutCommand(stateManager));
-        tree.setCommand("/help",
-                textCommand -> stateManager -> new HelpCommand(stateManager));
-        tree.setCommand("show content",
-                textCommand -> stateManager -> new ShowContentCommand(stateManager));
-        tree.setCommand("create",
-                textCommand -> stateManager -> new CreateCommand(stateManager, textCommand));
-        tree.setCommand("delete",
-                textCommand -> stateManager -> new DeleteCommand(stateManager, textCommand));
-        tree.setCommand("get total",
-                textCommand -> stateManager -> new GetTotalCommand(stateManager));
-        tree.setCommand("get tree",
-                textCommand -> stateManager -> new GetTreeCommand(stateManager));
-        tree.setCommand("put",
-                textCommand -> stateManager -> new PutCommand(stateManager, textCommand));
-        tree.setCommand("move to",
-                textCommand -> stateManager -> new MoveToCommand(stateManager, textCommand));
-        tree.setCommand("move up",
-                textCommand -> stateManager -> new MoveUpCommand(stateManager));
-        tree.setCommand("rename",
-                textCommand -> stateManager -> new RenameCommand(stateManager, textCommand));
+        tree.setCommand("/start",
+                textCommand -> stateManager -> new StartCommand(stateManager))
+                .setCommand("about",
+                        textCommand -> stateManager -> new AboutCommand(stateManager))
+                .setCommand("help",
+                        textCommand -> stateManager -> new HelpCommand(stateManager))
+                .setCommand("show content",
+                        textCommand -> stateManager -> new ShowContentCommand(stateManager))
+                .setCommand("create",
+                        textCommand -> stateManager -> new CreateCommand(stateManager, textCommand))
+                .setCommand("delete",
+                        textCommand -> stateManager -> new DeleteCommand(stateManager, textCommand))
+                .setCommand("get total",
+                        textCommand -> stateManager -> new GetTotalCommand(stateManager))
+                .setCommand("get tree",
+                        textCommand -> stateManager -> new GetTreeCommand(stateManager))
+                .setCommand("put",
+                        textCommand -> stateManager -> new PutCommand(stateManager, textCommand))
+                .setCommand("move to",
+                        textCommand -> stateManager -> new MoveToCommand(stateManager, textCommand))
+                .setCommand("move up",
+                        textCommand -> stateManager -> new MoveUpCommand(stateManager))
+                .setCommand("rename",
+                        textCommand -> stateManager -> new RenameCommand(stateManager, textCommand));
 
         return tree.build();
     }
@@ -82,14 +82,20 @@ public class FinancialBot extends TelegramLongPollingBot {
         }
         var userStateManager = usersStateManager.get(message.getChatId().toString());
         var messageText = message.getText().toLowerCase();
-        var outMessage = commands.getCommand(messageText).apply(messageText).apply(userStateManager).execute();
-
-        return MessageBuilder.createMessage(outMessage, userStateManager.getChatID());
+        if(userStateManager.getDialogState() == StateManager.DialogState.waitParameter){
+            return userStateManager.getBufferedCommand().apply(messageText);
+        }
+        return commands.getCommand(messageText).apply(messageText).apply(userStateManager).execute();
     }
 
-    private static class MessageBuilder{
-        public static SendMessage createMessage(String messageText, String chatId){
-            return new SendMessage(chatId,messageText);
+    private static class MessageBuilder {
+        public static SendMessage createMessage(String messageText, String chatId) {
+            return new SendMessage(chatId, messageText);
         }
+    }
+
+    private StateManager initStateManagerWithId(String chatId) {
+        var stateManager = new StateManager("Common", chatId);
+        return stateManager;
     }
 }

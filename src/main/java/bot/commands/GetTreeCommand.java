@@ -1,5 +1,8 @@
 package bot.commands;
+
 import bot.StateManager;
+import bot.keyboard.Keyboard;
+import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 
 public class GetTreeCommand extends Command{
     public GetTreeCommand(StateManager stateManager){
@@ -7,10 +10,14 @@ public class GetTreeCommand extends Command{
     }
 
     @Override
-    public String execute() {
+    public SendMessage execute() {
+        return getInfo();
+    }
+
+    @Override
+    public SendMessage getInfo() {
         var account = stateManager.getTakenAccount();
         var tree = "Current account: " + account.getName() + "\n" + "\n";
-
         for (var categoryManager : account.getCategoryManagers()){
             tree += "   " + categoryManager.getName() + ":\n" + "\n";
 
@@ -21,13 +28,18 @@ public class GetTreeCommand extends Command{
                     i++;
                 }
             } else{
-                tree += "       There are not any categories" + "\n";
+                tree += "       There are no categories" + "\n";
             }
 
             tree += "\n" + "   " +"Total: "+ categoryManager.getTotal() + "\n" + "\n";
 
         }
         tree += "Account total: " + account.getTotal();
-        return tree;
+        return SendMessage
+                .builder()
+                .chatId(stateManager.getChatID())
+                .text(tree)
+                .replyMarkup(Keyboard.createKeyboardMarkUp(stateManager.getAvailableButtonNames()))
+                .build();
     }
 }

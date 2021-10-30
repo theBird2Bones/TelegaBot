@@ -2,7 +2,8 @@ package bot.commands;
 
 import bot.Formatter;
 import bot.StateManager;
-import java.util.regex.Pattern;
+import bot.keyboard.Keyboard;
+import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 
 public class PutCommand extends Command {
     public PutCommand(StateManager stateManager, String command) {
@@ -10,19 +11,53 @@ public class PutCommand extends Command {
     }
 
     @Override
-    public String execute() {
-        return switch (stateManager.getCurrentState()) {
-            case tookAccount -> "Please choose 'Income' or 'Outcome' category to change balance";
-            case tookCategoryManager -> {
-                var splittedMessageText = textMessage.split(" ");
-                if (Pattern.matches("^-?\\d+?$", splittedMessageText[2])) {
-                    stateManager.getTakenCategoryManager().getCategories()
-                            .get(Integer.parseInt(splittedMessageText[1]) - 1)
-                            .put(Long.parseLong(splittedMessageText[2]));
-                    yield Formatter.formatCategoryManagerTotal(stateManager.getTakenCategoryManager());
-                }
-                yield "Sorry but you have to write digits only";
+    public SendMessage execute() {
+        if (stateManager.getDialogState() == StateManager.DialogState.waitNothing) {
+            if(stateManager.getTakenCategoryManager().getCategories().size() == 0){
+                return SendMessage.builder()
+                        .text("before putting you have to create")
+                        .chatId(stateManager.getChatID())
+                        .replyMarkup(Keyboard.createKeyboardMarkUp(stateManager.getAvailableButtonNames()))
+                        .build();
             }
-        };
+            stateManager.setDialogState(StateManager.DialogState.waitParameter);
+            stateManager.setBufferedCommand(params -> new PutCommand(stateManager, params).execute());
+            return getInfo();
+        }
+
+        var splittedMessageText = textMessage.split(" ");
+        var messageBuilder = SendMessage.builder()
+                .chatId(stateManager.getChatID());
+        if (validateInput(splittedMessageText[0], splittedMessageText[1])) {
+            stateManager.setDialogState(StateManager.DialogState.waitNothing);
+            stateManager.getTakenCategoryManager().getCategories()
+                    .get(Integer.parseInt(splittedMessageText[0]) - 1)
+                    .put(Long.parseLong(splittedMessageText[1]));
+            var preparedAnswer = Formatter.formatCategoryManagerTotal(stateManager.getTakenCategoryManager());
+            messageBuilder
+                    .text(preparedAnswer)
+                    .replyMarkup(Keyboard.createKeyboardMarkUp(stateManager.getAvailableButtonNames()));
+        } else {
+            messageBuilder.text("write correct input");
+        }
+        return messageBuilder.build();
+    }
+
+    @Override
+    public SendMessage getInfo() {
+        return SendMessage.builder()
+                .chatId(stateManager.getChatID())
+                .text("input two numbers: desired category index and money amount")
+                .build();
+    }
+
+    private boolean validateInput(String a, String b) {
+        try{
+            var c = Long.parseLong(a);
+            var d = Long.parseLong(b);
+            return c >= 0 && c <= stateManager.getTakenCategoryManager().getCategories().size();
+        } catch (NumberFormatException e){
+            return false;
+        }
     }
 }
