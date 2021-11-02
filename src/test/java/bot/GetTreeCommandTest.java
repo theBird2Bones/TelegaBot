@@ -7,14 +7,14 @@ import static org.junit.jupiter.api.Assertions.*;
 public class GetTreeCommandTest {
     @Test
     public void EmptyTreeTest(){
-        var stateManager = new StateManager("Current Account");
+        var stateManager = new StateManager("Current Account", "2523434");
         var account = stateManager.getTakenAccount();
         assertEquals(String.format("Current account: %s\n\n" +
                                 "   %s:\n\n" +
-                                "       There are not any categories\n\n" +
+                                "       There are no categories\n\n" +
                                 "   Total: %d\n\n" +
                                 "   %s:\n\n" +
-                                "       There are not any categories\n\n" +
+                                "       There are no categories\n\n" +
                                 "   Total: %d\n\n" +
                                 "Account total: %d",
                         account.getName(),
@@ -23,12 +23,12 @@ public class GetTreeCommandTest {
                         account.getCategoryManagers().get(1).getName(),
                         account.getCategoryManagers().get(1).getTotal(),
                         account.getTotal()),
-                new GetTreeCommand(stateManager).execute());
+                new GetTreeCommand(stateManager).execute().getText());
     }
 
     @Test
     public void OneIncomeTreeTest(){
-        var stateManager = new StateManager("Current Account");
+        var stateManager = new StateManager("Current Account", "23434");
         var account = stateManager.getTakenAccount();
 
         account.getCategoryManagers().get(0).addCategory("пиво");
@@ -39,7 +39,7 @@ public class GetTreeCommandTest {
                                 "       1) %s : %d\n\n" +
                                 "   Total: %d\n\n" +
                                 "   %s:\n\n" +
-                                "       There are not any categories\n\n" +
+                                "       There are no categories\n\n" +
                                 "   Total: %d\n\n" +
                                 "Account total: %d",
                         account.getName(),
@@ -50,12 +50,12 @@ public class GetTreeCommandTest {
                         account.getCategoryManagers().get(1).getName(),
                         account.getCategoryManagers().get(1).getTotal(),
                         account.getTotal()),
-                new GetTreeCommand(stateManager).execute());
+                new GetTreeCommand(stateManager).execute().getText());
     }
 
     @Test
     public void OneOutcomeTreeTest(){
-        var stateManager = new StateManager("Current Account");
+        var stateManager = new StateManager("Current Account", "23434");
         var account = stateManager.getTakenAccount();
 
         account.getCategoryManagers().get(1).addCategory("комп");
@@ -63,7 +63,7 @@ public class GetTreeCommandTest {
 
         assertEquals(String.format("Current account: %s\n\n" +
                                 "   %s:\n\n" +
-                                "       There are not any categories\n\n" +
+                                "       There are no categories\n\n" +
                                 "   Total: %d\n\n" +
                                 "   %s:\n\n" +
                                 "       1) %s : %d\n\n"+
@@ -77,12 +77,12 @@ public class GetTreeCommandTest {
                         account.getCategoryManagers().get(1).getCategories().get(0).getTotal(),
                         account.getCategoryManagers().get(1).getTotal(),
                         account.getTotal()),
-                new GetTreeCommand(stateManager).execute());
+                new GetTreeCommand(stateManager).execute().getText());
     }
 
     @Test
     public void OneIncomeOneOutcomeTreeTest(){
-        var stateManager = new StateManager("Current Account");
+        var stateManager = new StateManager("Current Account", "23434");
         var account = stateManager.getTakenAccount();
 
         account.getCategoryManagers().get(0).addCategory("пиво");
@@ -108,12 +108,12 @@ public class GetTreeCommandTest {
                         account.getCategoryManagers().get(1).getCategories().get(0).getTotal(),
                         account.getCategoryManagers().get(1).getTotal(),
                         account.getTotal()),
-                new GetTreeCommand(stateManager).execute());
+                new GetTreeCommand(stateManager).execute().getText());
     }
 
     @Test
     public void MoreIncomeMoreOutcomeTreeTest(){
-        var stateManager = new StateManager("Current Account");
+        var stateManager = new StateManager("Current Account", "23434");
         var account = stateManager.getTakenAccount();
 
         account.getCategoryManagers().get(0).addCategory("пиво");
@@ -151,6 +151,6 @@ public class GetTreeCommandTest {
                         account.getCategoryManagers().get(1).getCategories().get(1).getTotal(),
                         account.getCategoryManagers().get(1).getTotal(),
                         account.getTotal()),
-                new GetTreeCommand(stateManager).execute());//
+                new GetTreeCommand(stateManager).execute().getText());//
     }
 }
