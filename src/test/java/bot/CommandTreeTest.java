@@ -17,7 +17,7 @@ public class CommandTreeTest {
     @Before
     public void beforeEach(){
         treeBuilder = new CommandTree.Builder();
-        someStateManager = new StateManager("smt");
+        someStateManager = new StateManager("smt", "224434");
     }
 
     @Test
@@ -47,8 +47,19 @@ public class CommandTreeTest {
         treeBuilder.setCommand(moveToMessage, msg -> stateManager -> new MoveToCommand(stateManager,msg));
         var tree = treeBuilder.build();
         var expected = new MoveToCommand(someStateManager, moveToMessage).execute();
-        someStateManager.releaseCategoryManager();
+        someStateManager.setDialogState(StateManager.DialogState.waitNothing);
         var actual = tree.getCommand(moveToMessage).apply(moveToMessage).apply(someStateManager).execute();
+        Assert.assertEquals( expected, actual );
+    }
+
+    @Test
+    public void ExecuteOneDifficultCommand(){
+        treeBuilder.setCommand(moveToMessage, msg -> stateManager -> new MoveToCommand(stateManager,msg));
+        var tree = treeBuilder.build();
+        new MoveToCommand(someStateManager, moveToMessage).execute();
+        var expected = someStateManager.getBufferedCommand().apply("1");
+        tree.getCommand(moveToMessage).apply(moveToMessage).apply(someStateManager).execute();
+        var actual = someStateManager.getBufferedCommand().apply("1");
         Assert.assertEquals( expected, actual );
     }
 
