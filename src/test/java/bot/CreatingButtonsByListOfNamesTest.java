@@ -1,13 +1,9 @@
 package bot;
-
 import org.junit.Test;
-
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton;
-
 import java.util.ArrayList;
 import java.util.List;
-
 import static bot.keyboard.Keyboard.createButton;
 import static bot.keyboard.Keyboard.createKeyboardMarkUp;
 import static org.junit.jupiter.api.Assertions.assertEquals;
