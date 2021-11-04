@@ -2,6 +2,7 @@ package bot;
 
 import bot.categories.CategoryManager;
 import org.glassfish.jersey.internal.util.Producer;
+import org.telegram.telegrambots.meta.TelegramBotsApi;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 
 import java.util.ArrayList;
