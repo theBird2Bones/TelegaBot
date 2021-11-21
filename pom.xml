@@ -48,11 +48,11 @@
             <artifactId>telegrambotsextensions</artifactId>
             <version>${telegram.version}</version>
         </dependency>
+        <!--cassandra-->
         <dependency>
             <groupId> org.apache.cassandra</groupId>
             <artifactId>cassandra-all</artifactId>
             <version>0.8.1</version>
-
             <exclusions>
                 <exclusion>
                     <groupId>org.slf4j</groupId>
@@ -63,7 +63,19 @@
                     <artifactId>log4j</artifactId>
                 </exclusion>
             </exclusions>
+        </dependency>
+        <!--Postgresql jdbc-->
+        <dependency>
+            <groupId>org.postgresql</groupId>
+            <artifactId>postgresql</artifactId>
+            <version>42.3.1</version>
+        </dependency>
 
+        <!--Hibernate-->
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-core</artifactId>
+            <version>5.6.1.Final</version>
         </dependency>
 
 
@@ -88,5 +100,4 @@
             </plugin>
         </plugins>
     </build>
-
 </project>

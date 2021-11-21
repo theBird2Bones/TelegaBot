@@ -8,72 +8,61 @@ import org.junit.Test;
 public class CommandTreeTest {
     CommandTree.Builder treeBuilder;
     StateManager someStateManager;
-    String aboutMessage = "/about";
-    String helpMessage = "/help";
-    String moveToMessage = "move to 1";
-    String getTotalMessage = "get total";
-    String getTreeMessage = "get tree";
+    String aboutCommand = "about";
+    String helpCommand = "help";
+    String moveToCommand = "move to";
+    String getTotalCommand = "get total";
+    String getTreeCommand = "get tree";
 
     @Before
-    public void beforeEach(){
+    public void beforeEach() {
         treeBuilder = new CommandTree.Builder();
         someStateManager = new StateManager("smt", "224434");
     }
 
     @Test
     public void ContainOneSimpleCommandTest() {
-        treeBuilder.setCommand(aboutMessage, msg -> stateManager -> new AboutCommand(stateManager));
+        treeBuilder.setCommand(aboutCommand, msg -> stateManager -> new AboutCommand(stateManager));
         var tree = treeBuilder.build();
         Assert.assertEquals(
-                tree.getCommand(aboutMessage).apply(aboutMessage).apply(someStateManager).execute(),
+                tree.getCommand(aboutCommand).apply(aboutCommand).apply(someStateManager).execute(),
                 new AboutCommand(someStateManager).execute());
     }
 
     @Test
-    public void ContainTwoSimpleCommandTest(){
-        treeBuilder.setCommand(aboutMessage, msg -> stateManager -> new AboutCommand(stateManager));
-        treeBuilder.setCommand(helpMessage, msg -> stateManager -> new HelpCommand(stateManager));
+    public void ContainTwoSimpleCommandTest() {
+        treeBuilder.setCommand(aboutCommand, msg -> stateManager -> new AboutCommand(stateManager));
+        treeBuilder.setCommand(helpCommand, msg -> stateManager -> new HelpCommand(stateManager));
         var tree = treeBuilder.build();
         Assert.assertEquals(
-                tree.getCommand(aboutMessage).apply(aboutMessage).apply(someStateManager).execute(),
+                tree.getCommand(aboutCommand).apply(aboutCommand).apply(someStateManager).execute(),
                 new AboutCommand(someStateManager).execute());
         Assert.assertEquals(
-                tree.getCommand(helpMessage).apply(helpMessage).apply(someStateManager).execute(),
+                tree.getCommand(helpCommand).apply(helpCommand).apply(someStateManager).execute(),
                 new HelpCommand(someStateManager).execute());
     }
 
     @Test
-    public void ContainOneDifficultCommandTest(){
-        treeBuilder.setCommand(moveToMessage, msg -> stateManager -> new MoveToCommand(stateManager,msg));
+    public void ContainOneDifficultCommandTest() {
+        treeBuilder.setCommand(moveToCommand, msg -> stateManager -> new MoveToCommand(stateManager, msg));
         var tree = treeBuilder.build();
-        var expected = new MoveToCommand(someStateManager, moveToMessage).execute();
+        var expected = new MoveToCommand(someStateManager, moveToCommand + "1").execute();
         someStateManager.setDialogState(StateManager.DialogState.waitNothing);
-        var actual = tree.getCommand(moveToMessage).apply(moveToMessage).apply(someStateManager).execute();
-        Assert.assertEquals( expected, actual );
+        var actual = tree.getCommand(moveToCommand).apply(moveToCommand + "1").apply(someStateManager).execute();
+        Assert.assertEquals(expected, actual);
     }
 
     @Test
-    public void ExecuteOneDifficultCommand(){
-        treeBuilder.setCommand(moveToMessage, msg -> stateManager -> new MoveToCommand(stateManager,msg));
-        var tree = treeBuilder.build();
-        new MoveToCommand(someStateManager, moveToMessage).execute();
-        var expected = someStateManager.getBufferedCommand().apply("1");
-        tree.getCommand(moveToMessage).apply(moveToMessage).apply(someStateManager).execute();
-        var actual = someStateManager.getBufferedCommand().apply("1");
-        Assert.assertEquals( expected, actual );
-    }
-
-    @Test
-    public void ContainCommandsWithEqualTokens(){
-        treeBuilder.setCommand(getTreeMessage, msg -> stateManager -> new GetTreeCommand(stateManager));
-        treeBuilder.setCommand(getTotalMessage, msg -> stateManager -> new GetTotalCommand(stateManager));
+    public void ContainCommandsWithEqualTokens() {
+        treeBuilder.setCommand(getTreeCommand, msg -> stateManager -> new GetTreeCommand(stateManager));
+        treeBuilder.setCommand(getTotalCommand, msg -> stateManager -> new GetTotalCommand(stateManager));
         var tree = treeBuilder.build();
         Assert.assertEquals(
-                tree.getCommand(getTotalMessage).apply(getTotalMessage).apply(someStateManager).execute(),
+                tree.getCommand(getTotalCommand).apply(getTotalCommand).apply(someStateManager).execute(),
                 new GetTotalCommand(someStateManager).execute()
         );
         Assert.assertEquals(
-                tree.getCommand(getTreeMessage).apply(getTreeMessage).apply(someStateManager).execute(),
+                tree.getCommand(getTreeCommand).apply(getTreeCommand).apply(someStateManager).execute(),
                 new GetTreeCommand(someStateManager).execute()
         );
     }

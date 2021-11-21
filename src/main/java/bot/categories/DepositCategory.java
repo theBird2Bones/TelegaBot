@@ -1,6 +1,14 @@
 package bot.categories;
 
+import javax.persistence.*;
+
+@Entity
+@DiscriminatorValue(value="deposit_categories")
 public class DepositCategory extends Category {
+    public DepositCategory() {
+        super();
+    }
+
     public DepositCategory(String name, long initValue){
         super(name, initValue);
     }

@@ -1,12 +1,35 @@
 package bot;
 
 import bot.categories.*;
-import java.util.ArrayList;
 
+import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
+
+@Entity
+@Table(name = "accounts")
 public class Account {
+    @Id
+    @Column(name = "id", nullable = false)
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
+
+    @Column(name = "name")
     private String name;
-    private String currency;
-    private ArrayList<CategoryManager> categoryManagers;
+
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "account_id")
+    private List<CategoryManager> categoryManagers;
+
+    public Account() { }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 
     public Account(String name){
         this.name = name;
@@ -19,24 +42,16 @@ public class Account {
         this.name = name;
     }
 
-    public String getCurrency() {return currency;}
-
-    public void setCurrency(String cur){ this.currency = cur;}
-
     public String getName(){
         return name;
     }
 
-    public ArrayList<CategoryManager> getCategoryManagers(){
+    public List<CategoryManager> getCategoryManagers(){
         return categoryManagers;
     }
 
-    public long getTotal(){
-        var iter = categoryManagers.iterator();
-        var total = 0l;
-        while(iter.hasNext()){
-            total += iter.next().getTotal();
-        }
+    public long getTotal() {
+        var total = categoryManagers.stream().map(x -> x.getTotal()).reduce((a, b) -> a + b).get();
         return total;
     }
 

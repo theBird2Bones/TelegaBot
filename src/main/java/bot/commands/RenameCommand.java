@@ -20,7 +20,7 @@ public class RenameCommand extends Command {
                         .build();
             }
             stateManager.setDialogState(StateManager.DialogState.waitParameter);
-            stateManager.setBufferedCommand(params -> new RenameCommand(stateManager, params).execute());
+            stateManager.setBufferedCommandName("rename");
             return getInfo();
         }
         var splitterCommand = textMessage.split(" ");

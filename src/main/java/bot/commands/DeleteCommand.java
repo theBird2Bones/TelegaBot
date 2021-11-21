@@ -21,7 +21,7 @@ public class DeleteCommand extends Command {
                         .build();
             }
             stateManager.setDialogState(StateManager.DialogState.waitParameter);
-            stateManager.setBufferedCommand(params -> new DeleteCommand(stateManager, params).execute());
+            stateManager.setBufferedCommandName("delete");
             return getInfo();
         }
 

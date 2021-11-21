@@ -13,7 +13,7 @@ public class CreateCommand extends Command {
     public SendMessage execute() {
         if (stateManager.getDialogState() == StateManager.DialogState.waitNothing) {
             stateManager.setDialogState(StateManager.DialogState.waitParameter);
-            stateManager.setBufferedCommand(params -> new CreateCommand(stateManager, params).execute());
+            stateManager.setBufferedCommandName("create");
             return getInfo();
         }
         stateManager.setDialogState(StateManager.DialogState.waitNothing);

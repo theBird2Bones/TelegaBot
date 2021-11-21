@@ -1,89 +1,104 @@
 package bot;
 
 import bot.categories.CategoryManager;
-import org.glassfish.jersey.internal.util.Producer;
-import org.telegram.telegrambots.meta.TelegramBotsApi;
-import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 
+import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.function.Function;
 
+@Entity
+@Table(name = "stateManagers")
 public class StateManager {
-    public enum DialogState{
+    public StateManager() {super(); }
+
+    public enum DialogState {
         waitParameter,
         waitNothing,
     }
+
+    @Id
+    @Column(name = "id")
+    private long chatID;
+
+    @Enumerated(EnumType.STRING)
     private CurrentState currentState;
-    private Account takenAccount;
-    private CategoryManager takenCategoryManager;
-    private String chatID;
-    private Function<String, SendMessage> bufferedCommand;
+
+    @Enumerated(EnumType.STRING)
     private DialogState dialogState;
 
-    public StateManager(String accountName){
+    @OneToOne(targetEntity = Account.class, cascade = CascadeType.ALL)
+    private Account takenAccount;
+
+    @OneToOne(targetEntity = CategoryManager.class, cascade = CascadeType.ALL)
+    private CategoryManager takenCategoryManager;
+
+    @Column(name = "bufferdCommandName")
+    private String bufferedCommandName;
+
+    public StateManager(String accountName) {
         this(accountName, null);
     }
 
-    public StateManager(String accountName, String chatID){
+    public StateManager(String accountName, String chatID) {
         takenAccount = new Account(accountName);
         currentState = CurrentState.tookAccount;
         takenCategoryManager = null;
-        this.chatID = chatID;
+        this.chatID = Long.parseLong(chatID);
         this.dialogState = DialogState.waitNothing;
     }
 
-    public List<String> getAvailableButtonNames(){
+    public List<String> getAvailableButtonNames() {
         return switch (currentState) {
-            case tookAccount ->
-                    new ArrayList<>(Arrays.asList("Get total", "Get tree", "Show content", "Move to", "Help", "About"));
-            case tookCategoryManager ->
-                    new ArrayList<>(Arrays.asList("Get total", "Move up", "Rename","Create", "Put", "Delete", "Help", "About"));
+            case tookAccount -> new ArrayList<>(
+                    Arrays.asList("Get total", "Get tree", "Show content", "Move to", "Help", "About"));
+            case tookCategoryManager -> new ArrayList<>(
+                    Arrays.asList("Get total", "Move up", "Rename", "Create", "Put", "Delete", "Help", "About"));
         };
     }
 
-    public void setBufferedCommand(Function<String, SendMessage> bufferedCommand) {
-        this.bufferedCommand = bufferedCommand;
+    public void setBufferedCommandName(String name) {
+        bufferedCommandName = name;
     }
-    public Function<String, SendMessage> getBufferedCommand(){
-        return bufferedCommand;
+
+    public String getBufferedCommandName() {
+        return bufferedCommandName;
+    }
+
+    public String getChatID() {
+        return String.valueOf(chatID);
+    }
+
+    public void releaseCategoryManager() {
+        currentState = CurrentState.tookAccount;
+        takenCategoryManager = null;
     }
 
     public void setDialogState(DialogState dialogState) {
         this.dialogState = dialogState;
     }
 
-    public DialogState getDialogState(){
+    public DialogState getDialogState() {
         return dialogState;
     }
 
-    public String getChatID(){
-        return chatID;
-    }
-
-    public void releaseCategoryManager(){
-        currentState = CurrentState.tookAccount;
-        takenCategoryManager = null;
-    }
-
-    public CurrentState getCurrentState(){
+    public CurrentState getCurrentState() {
         return currentState;
     }
 
-    public void setCurrentState(CurrentState state){
+    public void setCurrentState(CurrentState state) {
         currentState = state;
     }
 
-    public Account getTakenAccount(){
+    public Account getTakenAccount() {
         return takenAccount;
     }
 
-    public void setTakenCategoryManager(CategoryManager categoryManager){
+    public void setTakenCategoryManager(CategoryManager categoryManager) {
         takenCategoryManager = categoryManager;
     }
 
-    public CategoryManager getTakenCategoryManager(){
+    public CategoryManager getTakenCategoryManager() {
         currentState = CurrentState.tookCategoryManager;
         return takenCategoryManager;
     }

@@ -21,7 +21,7 @@ public class PutCommand extends Command {
                         .build();
             }
             stateManager.setDialogState(StateManager.DialogState.waitParameter);
-            stateManager.setBufferedCommand(params -> new PutCommand(stateManager, params).execute());
+            stateManager.setBufferedCommandName("put");
             return getInfo();
         }
 

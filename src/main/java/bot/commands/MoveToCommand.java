@@ -15,7 +15,7 @@ public class MoveToCommand extends Command {
     public SendMessage execute() {
         if (stateManager.getDialogState() == StateManager.DialogState.waitNothing) {
             stateManager.setDialogState(StateManager.DialogState.waitParameter);
-            stateManager.setBufferedCommand(params -> new MoveToCommand(stateManager, params).execute());
+            stateManager.setBufferedCommandName("move to");
             return getInfo();
         }
         var messageBuilder = SendMessage.builder().chatId(stateManager.getChatID());
@@ -25,6 +25,7 @@ public class MoveToCommand extends Command {
             var parsedIndex = Integer.parseInt(textMessage) - 1;
             var currentCategoryManager =
                     stateManager.getTakenAccount().getCategoryManagers().get(parsedIndex);
+
             stateManager.setTakenCategoryManager(currentCategoryManager);
             stateManager.setCurrentState(CurrentState.tookCategoryManager);
             stateManager.setDialogState(StateManager.DialogState.waitNothing);

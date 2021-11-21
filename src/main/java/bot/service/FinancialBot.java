@@ -1,12 +1,16 @@
 package bot.service;
 
+import bot.aod.StateManagerAOD;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
-import  org.telegram.telegrambots.meta.api.objects.*;
+import org.telegram.telegrambots.meta.api.objects.*;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.*;
+import java.util.function.Function;
+
 import bot.*;
 import bot.commands.*;
 
@@ -23,7 +27,7 @@ public class FinancialBot extends TelegramLongPollingBot {
             var sc = new Scanner(new File("./.telega_bot_token.txt"));
             token = sc.next();
         } catch (FileNotFoundException e) {
-            e.printStackTrace();
+            System.out.println("troubles /w bot token");
         }
         return token;
     }
@@ -42,13 +46,13 @@ public class FinancialBot extends TelegramLongPollingBot {
         }
     }
 
-    private HashMap<String, StateManager> usersStateManager = new HashMap<>();
     private CommandTree commands = createCommands();
 
     private CommandTree createCommands() {
         var tree = new CommandTree.Builder();
-        tree.setCommand("/start",
-                textCommand -> stateManager -> new StartCommand(stateManager))
+        tree
+                .setCommand("/start",
+                        textCommand -> stateManager -> new StartCommand(stateManager))
                 .setCommand("about",
                         textCommand -> stateManager -> new AboutCommand(stateManager))
                 .setCommand("help",
@@ -76,26 +80,21 @@ public class FinancialBot extends TelegramLongPollingBot {
     }
 
     private SendMessage getResponseToInputtedMessage(Message message) {
-        if (!usersStateManager.containsKey(message.getChatId().toString())) {
-            usersStateManager.put(message.getChatId().toString(),
-                    initStateManagerWithId(message.getChatId().toString()));
+        StateManager userStateManager = StateManagerAOD.findById(message.getChatId());
+        if (userStateManager == null) {
+            userStateManager = new StateManager("Common", message.getChatId().toString());
+            StateManagerAOD.save(userStateManager);
         }
-        var userStateManager = usersStateManager.get(message.getChatId().toString());
+
         var messageText = message.getText().toLowerCase();
-        if(userStateManager.getDialogState() == StateManager.DialogState.waitParameter){
-            return userStateManager.getBufferedCommand().apply(messageText);
-        }
-        return commands.getCommand(messageText).apply(messageText).apply(userStateManager).execute();
-    }
+        var commandName = switch (userStateManager.getDialogState()) {
+            case waitNothing -> messageText;
+            case waitParameter -> userStateManager.getBufferedCommandName();
+        };
 
-    private static class MessageBuilder {
-        public static SendMessage createMessage(String messageText, String chatId) {
-            return new SendMessage(chatId, messageText);
-        }
-    }
-
-    private StateManager initStateManagerWithId(String chatId) {
-        var stateManager = new StateManager("Common", chatId);
-        return stateManager;
+        var preparedMessage =
+                commands.getCommand(commandName).apply(messageText).apply(userStateManager).execute();
+        StateManagerAOD.update(userStateManager);
+        return preparedMessage;
     }
 }
