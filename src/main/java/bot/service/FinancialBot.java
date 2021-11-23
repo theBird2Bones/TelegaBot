@@ -9,7 +9,6 @@ import org.telegram.telegrambots.meta.api.objects.*;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.*;
-import java.util.function.Function;
 
 import bot.*;
 import bot.commands.*;
@@ -24,7 +23,7 @@ public class FinancialBot extends TelegramLongPollingBot {
     public String getBotToken() {
         String token = "";
         try {
-            var sc = new Scanner(new File("./.telega_bot_token.txt"));
+            var sc = new Scanner(new File("C:\\Users\\kolos\\OneDrive\\Рабочий стол\\УНИВЕР\\ООП\\TelegaBot\\.telega_bot_token.txt"));
             token = sc.next();
         } catch (FileNotFoundException e) {
             System.out.println("troubles /w bot token");

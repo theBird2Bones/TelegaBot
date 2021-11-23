@@ -19,4 +19,4 @@ out/
 *.ipr
 *.iws
 
-.telega_bot_token*
+.telega_bot_token.txt
