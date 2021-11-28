@@ -1,6 +1,6 @@
 package bot.service;
 
-import bot.aod.StateManagerAOD;
+import bot.dao.StateManagerDao;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
@@ -9,7 +9,6 @@ import org.telegram.telegrambots.meta.api.objects.*;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.*;
-import java.util.function.Function;
 
 import bot.*;
 import bot.commands.*;
@@ -80,10 +79,10 @@ public class FinancialBot extends TelegramLongPollingBot {
     }
 
     private SendMessage getResponseToInputtedMessage(Message message) {
-        StateManager userStateManager = StateManagerAOD.findById(message.getChatId());
+        StateManager userStateManager = StateManagerDao.findById(message.getChatId());
         if (userStateManager == null) {
             userStateManager = new StateManager("Common", message.getChatId().toString());
-            StateManagerAOD.save(userStateManager);
+            StateManagerDao.persist(userStateManager);
         }
 
         var messageText = message.getText().toLowerCase();
@@ -94,7 +93,7 @@ public class FinancialBot extends TelegramLongPollingBot {
 
         var preparedMessage =
                 commands.getCommand(commandName).apply(messageText).apply(userStateManager).execute();
-        StateManagerAOD.update(userStateManager);
+        userStateManager.getBdOperation().performOperation(userStateManager);
         return preparedMessage;
     }
 }

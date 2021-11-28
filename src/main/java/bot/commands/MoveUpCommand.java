@@ -3,6 +3,7 @@ package bot.commands;
 import bot.CurrentState;
 import bot.Formatter;
 import bot.StateManager;
+import bot.dao.operations.NoOperation;
 import bot.keyboard.Keyboard;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 
@@ -20,6 +21,7 @@ public class MoveUpCommand extends Command{
     public SendMessage getInfo() {
         stateManager.releaseCategoryManager();
         stateManager.setCurrentState(CurrentState.tookAccount);
+        stateManager.setBdOperation(new NoOperation());
         return SendMessage
                 .builder()
                 .chatId(stateManager.getChatID())

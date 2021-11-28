@@ -3,6 +3,7 @@ package bot.commands;
 import bot.CurrentState;
 import bot.Formatter;
 import bot.StateManager;
+import bot.dao.operations.MergeOperation;
 import bot.keyboard.Keyboard;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 
@@ -16,6 +17,9 @@ public class MoveToCommand extends Command {
         if (stateManager.getDialogState() == StateManager.DialogState.waitNothing) {
             stateManager.setDialogState(StateManager.DialogState.waitParameter);
             stateManager.setBufferedCommandName("move to");
+
+            stateManager.setBdOperation(new MergeOperation());
+
             return getInfo();
         }
         var messageBuilder = SendMessage.builder().chatId(stateManager.getChatID());
@@ -37,6 +41,7 @@ public class MoveToCommand extends Command {
                     .text(preparedAnswer)
                     .replyMarkup(Keyboard.createKeyboardMarkUp(stateManager.getAvailableButtonNames()));
         }
+        stateManager.setBdOperation(new MergeOperation());
         return messageBuilder.build();
     }
 

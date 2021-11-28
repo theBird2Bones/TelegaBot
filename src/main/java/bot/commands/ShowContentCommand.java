@@ -2,6 +2,7 @@ package bot.commands;
 
 import bot.Formatter;
 import bot.StateManager;
+import bot.dao.operations.NoOperation;
 import bot.keyboard.Keyboard;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 
@@ -21,6 +22,7 @@ public class ShowContentCommand extends Command {
             case tookAccount -> Formatter.formatAccountInnerCategoryManager(stateManager.getTakenAccount());
             case tookCategoryManager -> Formatter.formatCategoryManagerContent(stateManager.getTakenCategoryManager());
         };
+        stateManager.setBdOperation(new NoOperation());
         return SendMessage
                 .builder()
                 .chatId(stateManager.getChatID())

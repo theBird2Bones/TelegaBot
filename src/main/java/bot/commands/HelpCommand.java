@@ -1,6 +1,7 @@
 package bot.commands;
 
 import bot.StateManager;
+import bot.dao.operations.NoOperation;
 import bot.keyboard.Keyboard;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 
@@ -28,6 +29,7 @@ public class HelpCommand extends Command{
                 "\ndelete - Delete something" +
                 "\nrename - Rename something" +
                 "\nget tree - Get tree";
+        stateManager.setBdOperation(new NoOperation());
         return SendMessage
                 .builder()
                 .chatId(stateManager.getChatID())

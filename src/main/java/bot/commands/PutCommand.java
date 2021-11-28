@@ -2,6 +2,7 @@ package bot.commands;
 
 import bot.Formatter;
 import bot.StateManager;
+import bot.dao.operations.MergeOperation;
 import bot.keyboard.Keyboard;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 
@@ -22,13 +23,14 @@ public class PutCommand extends Command {
             }
             stateManager.setDialogState(StateManager.DialogState.waitParameter);
             stateManager.setBufferedCommandName("put");
+            stateManager.setBdOperation(new MergeOperation());
             return getInfo();
         }
 
         var splittedMessageText = textMessage.split(" ");
         var messageBuilder = SendMessage.builder()
                 .chatId(stateManager.getChatID());
-        if (validateInput(splittedMessageText[0], splittedMessageText[1])) {
+        if (splittedMessageText.length == 2 && validateInput(splittedMessageText[0], splittedMessageText[1])) {
             stateManager.setDialogState(StateManager.DialogState.waitNothing);
             stateManager.getTakenCategoryManager().getCategories()
                     .get(Integer.parseInt(splittedMessageText[0]) - 1)
@@ -40,6 +42,7 @@ public class PutCommand extends Command {
         } else {
             messageBuilder.text("write correct input");
         }
+        stateManager.setBdOperation(new MergeOperation());
         return messageBuilder.build();
     }
 

@@ -5,9 +5,8 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "categories")
-@Inheritance(strategy = InheritanceType.JOINED)
-@DiscriminatorColumn(name = "type", discriminatorType = DiscriminatorType.STRING)
 @DiscriminatorValue(value = "category")
+@Inheritance(strategy = InheritanceType.JOINED)
 public abstract class Category {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

@@ -2,6 +2,7 @@ package bot.commands;
 
 import bot.Formatter;
 import bot.StateManager;
+import bot.dao.operations.MergeOperation;
 import bot.keyboard.Keyboard;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 
@@ -22,6 +23,7 @@ public class DeleteCommand extends Command {
             }
             stateManager.setDialogState(StateManager.DialogState.waitParameter);
             stateManager.setBufferedCommandName("delete");
+            stateManager.setBdOperation(new MergeOperation());
             return getInfo();
         }
 
@@ -45,6 +47,7 @@ public class DeleteCommand extends Command {
                     .text(preparedAnswer)
                     .replyMarkup(Keyboard.createKeyboardMarkUp(stateManager.getAvailableButtonNames()));
         }
+        stateManager.setBdOperation(new MergeOperation());
         return messageBuilder.build();
     }
 

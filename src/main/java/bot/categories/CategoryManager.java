@@ -6,7 +6,6 @@ import java.util.*;
 @Entity
 @Table(name = "category_managers")
 @Inheritance(strategy = InheritanceType.JOINED)
-@DiscriminatorColumn(name = "type", discriminatorType = DiscriminatorType.STRING)
 @DiscriminatorValue(value = "category_manager")
 public abstract class CategoryManager {
 
@@ -18,7 +17,7 @@ public abstract class CategoryManager {
     @Column(name = "name")
     protected String name;
 
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER,targetEntity = Category.class)
     @JoinColumn(name = "category_manager_id")
     protected List<Category> categories;
 

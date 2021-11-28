@@ -2,6 +2,7 @@ package bot.commands;
 
 import bot.Formatter;
 import bot.StateManager;
+import bot.dao.operations.NoOperation;
 import bot.keyboard.Keyboard;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 
@@ -12,6 +13,7 @@ public class GetTotalCommand extends Command{
 
     @Override
     public SendMessage execute() {
+        stateManager.setBdOperation(new NoOperation());
         return getInfo();
     }
 
@@ -23,6 +25,7 @@ public class GetTotalCommand extends Command{
             case tookCategoryManager ->
                     Formatter.formatCategoryManagerTotal(stateManager.getTakenCategoryManager());
         };
+        stateManager.setBdOperation(new NoOperation());
         return SendMessage
                 .builder()
                 .chatId(stateManager.getChatID())

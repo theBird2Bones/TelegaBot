@@ -1,6 +1,7 @@
 package bot.commands;
 
 import bot.StateManager;
+import bot.dao.operations.NoOperation;
 import bot.keyboard.Keyboard;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 
@@ -34,6 +35,7 @@ public class GetTreeCommand extends Command{
             tree += "\n" + "   " +"Total: "+ categoryManager.getTotal() + "\n" + "\n";
 
         }
+        stateManager.setBdOperation(new NoOperation());
         tree += "Account total: " + account.getTotal();
         return SendMessage
                 .builder()

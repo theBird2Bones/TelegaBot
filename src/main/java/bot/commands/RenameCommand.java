@@ -1,6 +1,7 @@
 package bot.commands;
 
 import bot.StateManager;
+import bot.dao.operations.MergeOperation;
 import bot.keyboard.Keyboard;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 
@@ -21,6 +22,7 @@ public class RenameCommand extends Command {
             }
             stateManager.setDialogState(StateManager.DialogState.waitParameter);
             stateManager.setBufferedCommandName("rename");
+            stateManager.setBdOperation(new MergeOperation());
             return getInfo();
         }
         var splitterCommand = textMessage.split(" ");
@@ -43,6 +45,7 @@ public class RenameCommand extends Command {
                     .replyMarkup(Keyboard.createKeyboardMarkUp(stateManager.getAvailableButtonNames()));
 
         }
+        stateManager.setBdOperation(new MergeOperation());
         return messageBuilder.build();
     }
 

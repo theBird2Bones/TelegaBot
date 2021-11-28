@@ -1,6 +1,7 @@
 package bot.commands;
 
 import bot.StateManager;
+import bot.dao.operations.NoOperation;
 import bot.keyboard.Keyboard;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 
@@ -16,6 +17,7 @@ public class AboutCommand extends Command {
 
     @Override
     public SendMessage getInfo() {
+        stateManager.setBdOperation(new NoOperation());
         return SendMessage
                 .builder()
                 .chatId(stateManager.getChatID())

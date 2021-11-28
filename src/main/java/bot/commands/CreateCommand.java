@@ -1,6 +1,7 @@
 package bot.commands;
 
 import bot.*;
+import bot.dao.operations.MergeOperation;
 import bot.keyboard.Keyboard;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 
@@ -14,12 +15,18 @@ public class CreateCommand extends Command {
         if (stateManager.getDialogState() == StateManager.DialogState.waitNothing) {
             stateManager.setDialogState(StateManager.DialogState.waitParameter);
             stateManager.setBufferedCommandName("create");
+
+            stateManager.setBdOperation(new MergeOperation());
+
             return getInfo();
         }
         stateManager.setDialogState(StateManager.DialogState.waitNothing);
         var categoryName = String.join(" ", textMessage.split(" "));
         stateManager.getTakenCategoryManager().addCategory(categoryName);
         var preparedAnswer = Formatter.formatCategoryManagerContent(stateManager.getTakenCategoryManager());
+
+        stateManager.setBdOperation(new MergeOperation());
+
         return SendMessage.builder()
                 .chatId(stateManager.getChatID())
                 .text(preparedAnswer)

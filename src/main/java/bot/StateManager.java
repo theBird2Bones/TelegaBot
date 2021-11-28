@@ -1,6 +1,8 @@
 package bot;
 
 import bot.categories.CategoryManager;
+import bot.dao.operations.BdOperation;
+import bot.dao.operations.NoOperation;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -36,6 +38,9 @@ public class StateManager {
     @Column(name = "bufferdCommandName")
     private String bufferedCommandName;
 
+    @Transient
+    BdOperation bdOperation;
+
     public StateManager(String accountName) {
         this(accountName, null);
     }
@@ -46,6 +51,7 @@ public class StateManager {
         takenCategoryManager = null;
         this.chatID = Long.parseLong(chatID);
         this.dialogState = DialogState.waitNothing;
+        this.bdOperation = new NoOperation();
     }
 
     public List<String> getAvailableButtonNames() {
@@ -72,6 +78,14 @@ public class StateManager {
     public void releaseCategoryManager() {
         currentState = CurrentState.tookAccount;
         takenCategoryManager = null;
+    }
+
+    public BdOperation getBdOperation(){
+        return bdOperation;
+    }
+
+    public void setBdOperation(BdOperation bdOperation){
+        this.bdOperation = bdOperation;
     }
 
     public void setDialogState(DialogState dialogState) {

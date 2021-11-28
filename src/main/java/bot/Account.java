@@ -17,7 +17,7 @@ public class Account {
     @Column(name = "name")
     private String name;
 
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToMany(cascade = CascadeType.ALL, targetEntity = CategoryManager.class, fetch = FetchType.EAGER)
     @JoinColumn(name = "account_id")
     private List<CategoryManager> categoryManagers;
 
