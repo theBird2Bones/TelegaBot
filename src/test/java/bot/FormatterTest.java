@@ -1,7 +1,7 @@
 package bot;
 
-import org.junit.Test;
 import bot.categories.*;
+import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 

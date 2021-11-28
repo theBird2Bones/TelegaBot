@@ -2,8 +2,8 @@ package bot;
 
 import bot.commands.*;
 import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 public class CommandTreeTest {
     CommandTree.Builder treeBuilder;
@@ -14,7 +14,7 @@ public class CommandTreeTest {
     String getTotalCommand = "get total";
     String getTreeCommand = "get tree";
 
-    @Before
+    @BeforeEach
     public void beforeEach() {
         treeBuilder = new CommandTree.Builder();
         someStateManager = new StateManager("smt", "224434");
