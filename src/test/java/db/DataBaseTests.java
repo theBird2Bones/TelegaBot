@@ -62,7 +62,7 @@ public class DataBaseTests {
         StateManagerDao.update(initStateManager);
         initStateManager.getTakenAccount().getCategoryManagers().get(0).getCategories().get(0).setName("testAnother1");
         StateManagerDao.update(initStateManager);
-        
+
         var st = StateManagerDao.findById(initStateManager.getChatID());
         Assert.assertEquals(StateManagerComparator.isEqual(initStateManager,st), true);
     }
