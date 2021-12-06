@@ -1,7 +1,7 @@
 package bot;
 
 import bot.commands.*;
-import org.junit.Assert;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -22,22 +22,22 @@ public class CommandTreeTest {
 
     @Test
     public void ContainOneSimpleCommandTest() {
-        treeBuilder.setCommand(aboutCommand, msg -> stateManager -> new AboutCommand(stateManager));
+        treeBuilder.setCommand(aboutCommand, msg -> AboutCommand::new);
         var tree = treeBuilder.build();
-        Assert.assertEquals(
+        Assertions.assertEquals(
                 tree.getCommand(aboutCommand).apply(aboutCommand).apply(someStateManager).execute(),
                 new AboutCommand(someStateManager).execute());
     }
 
     @Test
     public void ContainTwoSimpleCommandTest() {
-        treeBuilder.setCommand(aboutCommand, msg -> stateManager -> new AboutCommand(stateManager));
-        treeBuilder.setCommand(helpCommand, msg -> stateManager -> new HelpCommand(stateManager));
+        treeBuilder.setCommand(aboutCommand, msg -> AboutCommand::new);
+        treeBuilder.setCommand(helpCommand, msg -> HelpCommand::new);
         var tree = treeBuilder.build();
-        Assert.assertEquals(
+        Assertions.assertEquals(
                 tree.getCommand(aboutCommand).apply(aboutCommand).apply(someStateManager).execute(),
                 new AboutCommand(someStateManager).execute());
-        Assert.assertEquals(
+        Assertions.assertEquals(
                 tree.getCommand(helpCommand).apply(helpCommand).apply(someStateManager).execute(),
                 new HelpCommand(someStateManager).execute());
     }
@@ -49,19 +49,19 @@ public class CommandTreeTest {
         var expected = new MoveToCommand(someStateManager, moveToCommand + "1").execute();
         someStateManager.setDialogState(StateManager.DialogState.waitNothing);
         var actual = tree.getCommand(moveToCommand).apply(moveToCommand + "1").apply(someStateManager).execute();
-        Assert.assertEquals(expected, actual);
+        Assertions.assertEquals(expected, actual);
     }
 
     @Test
     public void ContainCommandsWithEqualTokens() {
-        treeBuilder.setCommand(getTreeCommand, msg -> stateManager -> new GetTreeCommand(stateManager));
-        treeBuilder.setCommand(getTotalCommand, msg -> stateManager -> new GetTotalCommand(stateManager));
+        treeBuilder.setCommand(getTreeCommand, msg -> GetTreeCommand::new);
+        treeBuilder.setCommand(getTotalCommand, msg -> GetTotalCommand::new);
         var tree = treeBuilder.build();
-        Assert.assertEquals(
+        Assertions.assertEquals(
                 tree.getCommand(getTotalCommand).apply(getTotalCommand).apply(someStateManager).execute(),
                 new GetTotalCommand(someStateManager).execute()
         );
-        Assert.assertEquals(
+        Assertions.assertEquals(
                 tree.getCommand(getTreeCommand).apply(getTreeCommand).apply(someStateManager).execute(),
                 new GetTreeCommand(someStateManager).execute()
         );

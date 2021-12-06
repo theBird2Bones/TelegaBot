@@ -17,7 +17,6 @@ public class MoveToCommand extends Command {
         if (stateManager.getDialogState() == StateManager.DialogState.waitNothing) {
             stateManager.setDialogState(StateManager.DialogState.waitParameter);
             stateManager.setBufferedCommandName("move to");
-
             stateManager.setBdOperation(new MergeOperation());
 
             return getInfo();

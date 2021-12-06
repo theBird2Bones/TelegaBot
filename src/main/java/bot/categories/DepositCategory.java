@@ -9,10 +9,6 @@ public class DepositCategory extends Category {
         super();
     }
 
-    public DepositCategory(String name, long initValue){
-        super(name, initValue);
-    }
-
     public DepositCategory(String name){
         super(name);
     }

@@ -1,13 +1,8 @@
 package bot.dao;
 
 import bot.StateManager;
-import bot.categories.Category;
 import bot.utils.HibernateSessionFactoryUtil;
 import org.hibernate.Session;
-import org.hibernate.SessionException;
-import org.hibernate.TransactionException;
-import org.hibernate.query.Query;
-
 import java.util.function.BiConsumer;
 
 public class StateManagerDao {
@@ -25,28 +20,22 @@ public class StateManagerDao {
         try {
             operation.accept(session, stateManager);
             transaction.commit();
-        } catch (TransactionException exception) {
-            transaction.rollback();
         } catch (Exception exception) {
             transaction.rollback();
         } finally {
             session.close();
         }
     }
-
+    //TODO: попробовать объеднить эти методы в один, тк они практически идентичны
     public static void persist(StateManager stateManager) {
-        performOperation(stateManager, ((session, manager) -> session.persist(manager)));
+        performOperation(stateManager, (Session::persist));
     }
 
     public static void merge(StateManager stateManager) {
-        performOperation(stateManager, ((session, manager) -> session.merge(manager)));
+        performOperation(stateManager, (Session::merge));
     }
 
     public static void update(StateManager stateManager){
-        performOperation(stateManager, ((session, manager) -> session.update(manager)));
-    }
-
-    public static void delete(StateManager stateManager) {
-        performOperation(stateManager, ((session, manager) -> session.delete(manager)));
+        performOperation(stateManager, (Session::update));
     }
 }

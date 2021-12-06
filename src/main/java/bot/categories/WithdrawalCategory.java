@@ -6,9 +6,6 @@ import javax.persistence.Entity;
 @Entity
 @DiscriminatorValue(value="withdrawal_categories")
 public class WithdrawalCategory extends Category {
-    public WithdrawalCategory(String name, long initValue){
-        super(name, initValue);
-    }
 
     public WithdrawalCategory(String name){
         super(name);

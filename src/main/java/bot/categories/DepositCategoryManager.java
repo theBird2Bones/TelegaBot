@@ -9,7 +9,6 @@ public class DepositCategoryManager extends CategoryManager {
     public DepositCategoryManager(String name) {
         super(name);
     }
-
     public DepositCategoryManager() { super(); }
 
     @Override

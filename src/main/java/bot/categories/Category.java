@@ -1,6 +1,5 @@
 package bot.categories;
 
-
 import javax.persistence.*;
 
 @Entity
@@ -17,14 +16,6 @@ public abstract class Category {
     protected String name;
     @Column(name = "total")
     protected long total;
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
 
     public Category(String name, long initValue) {
         this.name = name;

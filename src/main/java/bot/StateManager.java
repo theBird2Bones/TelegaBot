@@ -3,7 +3,6 @@ package bot;
 import bot.categories.CategoryManager;
 import bot.dao.operations.BdOperation;
 import bot.dao.operations.NoOperation;
-
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.Arrays;
