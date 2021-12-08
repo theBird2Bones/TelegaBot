@@ -1,5 +1,6 @@
-package bot;
+package general;
 
+import bot.StateManager;
 import bot.keyboard.Keyboard;
 import org.junit.Assert;
 import org.junit.jupiter.api.Test;

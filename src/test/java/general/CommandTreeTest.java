@@ -1,5 +1,6 @@
-package bot;
+package general;
 
+import bot.StateManager;
 import bot.commands.*;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
