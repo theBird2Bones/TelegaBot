@@ -1,0 +1,9 @@
+/home/kst/codeProjects/java/TelegaBot/src/test/java/db/DataBaseTests.java
+/home/kst/codeProjects/java/TelegaBot/src/test/java/general/CommandTreeTest.java
+/home/kst/codeProjects/java/TelegaBot/src/test/java/general/FormatterTest.java
+/home/kst/codeProjects/java/TelegaBot/src/test/java/general/StateDependentKeyboardTest.java
+/home/kst/codeProjects/java/TelegaBot/src/test/java/utils/CategoryManagerComparator.java
+/home/kst/codeProjects/java/TelegaBot/src/test/java/utils/StateManagerComparator.java
+/home/kst/codeProjects/java/TelegaBot/src/test/java/general/GetTreeCommandTest.java
+/home/kst/codeProjects/java/TelegaBot/src/test/java/utils/CategoryComparator.java
+/home/kst/codeProjects/java/TelegaBot/src/test/java/general/CreatingButtonsByListOfNamesTest.java

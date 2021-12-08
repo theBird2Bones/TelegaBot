@@ -1,0 +1,9 @@
+general/GetTreeCommandTest.class
+general/StateDependentKeyboardTest.class
+utils/StateManagerComparator.class
+utils/CategoryManagerComparator.class
+general/FormatterTest.class
+utils/CategoryComparator.class
+general/CommandTreeTest.class
+db/DataBaseTests.class
+general/CreatingButtonsByListOfNamesTest.class
