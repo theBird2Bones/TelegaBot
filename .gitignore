@@ -18,5 +18,5 @@ out/
 *.iml
 *.ipr
 *.iws
-
+.*
 .telega_bot_token*

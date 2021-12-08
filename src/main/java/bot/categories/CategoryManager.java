@@ -17,7 +17,7 @@ public abstract class CategoryManager {
     @Column(name = "name")
     protected String name;
 
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER,targetEntity = Category.class)
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "category_manager_id")
     protected List<Category> categories;
 
