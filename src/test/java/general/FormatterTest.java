@@ -1,6 +1,9 @@
-package bot;
+package general;
 
+import bot.Account;
+import bot.Formatter;
 import bot.categories.*;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -11,7 +14,7 @@ public class FormatterTest {
         var cat = new WithdrawalCategory("Soup");
         cat.put(500);
 
-        assertEquals(String.format("Category: %s\nOutcome: %d",cat.getName(), cat.getTotal()),
+        Assertions.assertEquals(String.format("Category: %s\nOutcome: %d",cat.getName(), cat.getTotal()),
                 Formatter.formatCategory(cat));
     }
 
