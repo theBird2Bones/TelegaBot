@@ -27,14 +27,15 @@ public class PutCommand extends Command {
             return getInfo();
         }
 
-        var splittedMessageText = textMessage.split(" ");
+        var splitMessageText = textMessage.split(" ");
         var messageBuilder = SendMessage.builder()
                 .chatId(stateManager.getChatID());
-        if (splittedMessageText.length == 2 && validateInput(splittedMessageText[0], splittedMessageText[1])) {
+
+        if (splitMessageText.length == 2 && validateInput(splitMessageText[0], splitMessageText[1])) {
             stateManager.setDialogState(StateManager.DialogState.waitNothing);
             stateManager.getTakenCategoryManager().getCategories()
-                    .get(Integer.parseInt(splittedMessageText[0]) - 1)
-                    .put(Long.parseLong(splittedMessageText[1]));
+                    .get(Integer.parseInt(splitMessageText[0]) - 1)
+                    .put(Long.parseLong(splitMessageText[1]));
             var preparedAnswer = Formatter.formatCategoryManagerTotal(stateManager.getTakenCategoryManager());
             messageBuilder
                     .text(preparedAnswer)

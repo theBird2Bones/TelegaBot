@@ -1,7 +1,6 @@
 package bot;
 
 import bot.categories.*;
-
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -22,14 +21,6 @@ public class Account {
     private List<CategoryManager> categoryManagers;
 
     public Account() { }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
 
     public Account(String name){
         this.name = name;

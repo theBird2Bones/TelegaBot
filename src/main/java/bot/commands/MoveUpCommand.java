@@ -4,7 +4,6 @@ import bot.CurrentState;
 import bot.Formatter;
 import bot.StateManager;
 import bot.dao.operations.MergeOperation;
-import bot.dao.operations.NoOperation;
 import bot.keyboard.Keyboard;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 

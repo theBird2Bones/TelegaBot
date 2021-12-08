@@ -5,11 +5,9 @@ import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import org.telegram.telegrambots.meta.api.objects.*;
-
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.*;
-
 import bot.*;
 import bot.commands.*;
 
@@ -45,33 +43,33 @@ public class FinancialBot extends TelegramLongPollingBot {
         }
     }
 
-    private CommandTree commands = createCommands();
+    private final CommandTree commands = createCommands();
 
     private CommandTree createCommands() {
         var tree = new CommandTree.Builder();
         tree
                 .setCommand("/start",
-                        textCommand -> stateManager -> new StartCommand(stateManager))
+                        textCommand -> StartCommand::new)
                 .setCommand("about",
-                        textCommand -> stateManager -> new AboutCommand(stateManager))
+                        textCommand -> AboutCommand::new)
                 .setCommand("help",
-                        textCommand -> stateManager -> new HelpCommand(stateManager))
+                        textCommand -> HelpCommand::new)
                 .setCommand("show content",
-                        textCommand -> stateManager -> new ShowContentCommand(stateManager))
+                        textCommand -> ShowContentCommand::new)
                 .setCommand("create",
                         textCommand -> stateManager -> new CreateCommand(stateManager, textCommand))
                 .setCommand("delete",
                         textCommand -> stateManager -> new DeleteCommand(stateManager, textCommand))
                 .setCommand("get total",
-                        textCommand -> stateManager -> new GetTotalCommand(stateManager))
+                        textCommand -> GetTotalCommand::new)
                 .setCommand("get tree",
-                        textCommand -> stateManager -> new GetTreeCommand(stateManager))
+                        textCommand -> GetTreeCommand::new)
                 .setCommand("put",
                         textCommand -> stateManager -> new PutCommand(stateManager, textCommand))
                 .setCommand("move to",
                         textCommand -> stateManager -> new MoveToCommand(stateManager, textCommand))
                 .setCommand("move up",
-                        textCommand -> stateManager -> new MoveUpCommand(stateManager))
+                        textCommand -> MoveUpCommand::new)
                 .setCommand("rename",
                         textCommand -> stateManager -> new RenameCommand(stateManager, textCommand));
 

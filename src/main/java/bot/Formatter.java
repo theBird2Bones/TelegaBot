@@ -15,7 +15,6 @@ public class Formatter {
             format += "\n" + index + ") " + category.getName();
         }
 
-
         return format;
     }
 

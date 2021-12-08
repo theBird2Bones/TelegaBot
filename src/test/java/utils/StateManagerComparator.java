@@ -18,6 +18,5 @@ public class StateManagerComparator {
                 CategoryManagerComparator.isEqual(
                         st1.getTakenAccount().getCategoryManagers().get(1),
                         st2.getTakenAccount().getCategoryManagers().get(1));
-
     }
 }
