@@ -20,4 +20,4 @@ out/
 *.iws
 .*
 .telega_bot_token*
-target*
+
