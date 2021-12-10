@@ -15,4 +15,9 @@ public class DepositCategoryManager extends CategoryManager {
     public void addCategory(String name) {
         categories.add(new DepositCategory(name));
     }
+
+    @Override
+    public void addCategory(String name, long initValue) {
+        categories.add(new DepositCategory(name, initValue));
+    }
 }

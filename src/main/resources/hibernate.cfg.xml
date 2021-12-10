@@ -17,6 +17,7 @@
         <mapping class="bot.categories.CategoryManager"/>
         <mapping class="bot.categories.DepositCategoryManager"/>
         <mapping class="bot.categories.WithdrawalCategoryManager"/>
+        <mapping class="bot.categories.TodoCategoryManager"/>
         <mapping class="bot.Account"/>
         <mapping class="bot.StateManager"/>
     </session-factory>

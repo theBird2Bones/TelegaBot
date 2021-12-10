@@ -14,6 +14,7 @@ public abstract class Category {
 
     @Column(name = "name")
     protected String name;
+
     @Column(name = "total")
     protected long total;
 
