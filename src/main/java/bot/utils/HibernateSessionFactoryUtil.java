@@ -20,10 +20,12 @@ public class HibernateSessionFactoryUtil {
                 configuration.addAnnotatedClass(Category.class);
                 configuration.addAnnotatedClass(WithdrawalCategory.class);
                 configuration.addAnnotatedClass(DepositCategory.class);
+                configuration.addAnnotatedClass(TodoCategory.class);
 
                 configuration.addAnnotatedClass(CategoryManager.class);
                 configuration.addAnnotatedClass(WithdrawalCategoryManager.class);
                 configuration.addAnnotatedClass(DepositCategoryManager.class);
+                configuration.addAnnotatedClass(TodoCategoryManager.class);
 
                 configuration.addAnnotatedClass(StateManager.class);
                 configuration.addAnnotatedClass(Account.class);

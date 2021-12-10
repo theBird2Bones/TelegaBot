@@ -28,6 +28,7 @@ public class GetTreeCommand extends Command {
         var managerCounter = 0;
         var outterBorder = outterBorderT;
         var outterPadding = "┃   ";
+
         for(var manager: account.getCategoryManagers()){
             managerCounter++;
             if(managerCounter == account.getCategoryManagers().size()){
@@ -38,13 +39,14 @@ public class GetTreeCommand extends Command {
 
             var innerBorder = outterBorderT;
             var categoryCount = 0;
+
             for(var category: manager.getCategories()){
                 categoryCount++;
                 if(categoryCount == manager.getCategories().size()){
                     innerBorder = outterBorderCorner;
                 }
                 tree += outterPadding;
-                tree += String.format("%s━ %s\n",innerBorder, category.getName());
+                tree += String.format("%s━ %s: %d\n",innerBorder, category.getName(), category.getTotal());
             }
         }
         stateManager.setBdOperation(new NoOperation());

@@ -55,10 +55,8 @@ public class StateManager {
 
     public List<String> getAvailableButtonNames() {
         return switch (currentState) {
-            case tookAccount -> new ArrayList<>(
-                    Arrays.asList("Get total", "Get tree", "Show content", "Move to", "Help", "About"));
-            case tookCategoryManager -> new ArrayList<>(
-                    Arrays.asList("Get total", "Move up", "Rename", "Create", "Put", "Delete", "Help", "About"));
+            case tookAccount -> takenAccount.getAvailableButtonNames();
+            case tookCategoryManager -> takenCategoryManager.getAvailableButtonNames();
         };
     }
 
