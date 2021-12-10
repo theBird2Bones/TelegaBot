@@ -13,6 +13,10 @@ public class DepositCategory extends Category {
         super(name);
     }
 
+    public DepositCategory(String name, long iniValue){
+        super(name, iniValue);
+    }
+
     @Override
     public void put(long value) {
         total += Math.abs(value);

@@ -17,7 +17,7 @@ public abstract class CategoryManager {
     @Column(name = "name")
     protected String name;
 
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, targetEntity = Category.class)
     @JoinColumn(name = "category_manager_id")
     protected List<Category> categories;
 
@@ -41,6 +41,12 @@ public abstract class CategoryManager {
     }
 
     abstract public void addCategory(String name);
+
+    abstract public void addCategory(String name, long initValue);
+
+    public List<String> getAvailableButtonNames() {
+        return Arrays.asList("Get total", "Move up", "Rename", "Create", "Put", "Delete", "Help", "About");
+    }
 
     public void removeCategoryWithIndex(int index) {
         categories.remove(index);

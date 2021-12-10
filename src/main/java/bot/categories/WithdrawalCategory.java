@@ -11,6 +11,10 @@ public class WithdrawalCategory extends Category {
         super(name);
     }
 
+    public WithdrawalCategory(String name, long initValue){
+        super(name, -1 * Math.abs(initValue));
+    }
+
     public WithdrawalCategory() { super();}
 
     @Override

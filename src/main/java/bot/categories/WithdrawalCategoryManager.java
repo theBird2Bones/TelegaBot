@@ -16,4 +16,9 @@ public class WithdrawalCategoryManager extends CategoryManager {
     public void addCategory(String name) {
         categories.add(new WithdrawalCategory(name));
     }
+
+    @Override
+    public void addCategory(String name, long initValue) {
+        categories.add(new WithdrawalCategory(name, initValue));
+    }
 }

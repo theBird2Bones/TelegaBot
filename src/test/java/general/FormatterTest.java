@@ -75,10 +75,11 @@ public class FormatterTest {
         innerManager.addCategory("G");
         innerManager.addCategory("T");
 
-        assertEquals(String.format("Account: %s\nInner category managers:\n1) %s\n2) %s",
+        assertEquals(String.format("Account: %s\nInner category managers:\n1) %s\n2) %s\n3) %s",
                 acc.getName(),
                 acc.getCategoryManagers().get(0).getName(),
-                acc.getCategoryManagers().get(1).getName()),
+                acc.getCategoryManagers().get(1).getName(),
+                acc.getCategoryManagers().get(2).getName()),
                 Formatter.formatAccountInnerCategoryManager(acc));
     }
 
@@ -96,11 +97,12 @@ public class FormatterTest {
         innerManager.addCategory("T`");
         innerManager.getCategories().get(1).put(300);
 
-        assertEquals(String.format("Account: %s\nTotal: %s\nwith inner category managers:\n1) %s\n2) %s",
+        assertEquals(String.format("Account: %s\nTotal: %s\nwith inner category managers:\n1) %s\n2) %s\n3) %s",
                 acc.getName(),
                 acc.getTotal(),
                 acc.getCategoryManagers().get(0).getName(),
-                acc.getCategoryManagers().get(1).getName()),
+                acc.getCategoryManagers().get(1).getName(),
+                acc.getCategoryManagers().get(2).getName()),
                 Formatter.formatAccountInnerCategoryManagerTotal(acc));
     }
 }

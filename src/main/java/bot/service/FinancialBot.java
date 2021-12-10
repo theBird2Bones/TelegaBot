@@ -66,6 +66,10 @@ public class FinancialBot extends TelegramLongPollingBot {
                         textCommand -> GetTreeCommand::new)
                 .setCommand("put",
                         textCommand -> stateManager -> new PutCommand(stateManager, textCommand))
+                .setCommand("close",
+                        textCommand -> stateManager -> new CloseCommand(stateManager, textCommand))
+                .setCommand("set goal",
+                        textCommand -> stateManager -> new SetGoalCommand(stateManager, textCommand))
                 .setCommand("move to",
                         textCommand -> stateManager -> new MoveToCommand(stateManager, textCommand))
                 .setCommand("move up",
