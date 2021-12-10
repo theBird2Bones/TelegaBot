@@ -96,7 +96,6 @@ public class FormatterTest {
         innerManager.getCategories().get(0).put(500);
         innerManager.addCategory("T`");
         innerManager.getCategories().get(1).put(300);
-
         assertEquals(String.format("Account: %s\nTotal: %s\nwith inner category managers:\n1) %s\n2) %s\n3) %s",
                 acc.getName(),
                 acc.getTotal(),
