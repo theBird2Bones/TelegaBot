@@ -31,16 +31,19 @@ public class CloseCommand extends Command {
             messageBuilder.text("input correct index");
         } else {
             var parsedIndex = Integer.parseInt(textMessage) - 1;
-            var currentCategory = (TodoCategory)
-                    stateManager.getTakenCategoryManager().getCategories().get(parsedIndex);
             if (stateManager.getTakenCategoryManager().getCategories().size() == 0) {
                 messageBuilder.replyMarkup(
                                 Keyboard.createKeyboardMarkUp(
                                         stateManager.getTakenCategoryManager().getAvailableButtonNames()))
                         .text("you should set goal firstly!");
                 stateManager.setDialogState(StateManager.DialogState.waitNothing);
+                stateManager.setBdOperation(new MergeOperation());
+                return messageBuilder.build();
+            }
+            var currentCategory = (TodoCategory)
+                    stateManager.getTakenCategoryManager().getCategories().get(parsedIndex);
 
-            } else if (currentCategory.getTotal() != 0) {
+            if (currentCategory.getTotal() != 0) {
                 messageBuilder.replyMarkup(Keyboard.createKeyboardMarkUp(
                                 stateManager.getTakenCategoryManager().getAvailableButtonNames()))
                         .text("you should complete your goal before closing.");

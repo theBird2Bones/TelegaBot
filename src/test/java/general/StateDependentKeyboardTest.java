@@ -28,6 +28,7 @@ public class StateDependentKeyboardTest {
     public void tookCategoryManagerTest() {
         var stateManager = new StateManager("current","2343");
         stateManager.setCurrentState(tookCategoryManager);
+        stateManager.setTakenCategoryManager(stateManager.getTakenAccount().getCategoryManagers().get(0));
 
         Assert.assertEquals(
                 Keyboard.createKeyboardMarkUp(
